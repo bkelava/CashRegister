@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "797583581043",
+    "firebase_url": "https://cash-register-73e6b.firebaseio.com",
+    "project_id": "cash-register-73e6b",
+    "storage_bucket": "cash-register-73e6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797583581043:android:9b0ef114a41910d8012f06",
+        "android_client_info": {
+          "package_name": "hr.ferit.bozidarkelava.cashregister"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797583581043-9bpuco93th76gcab6aq20vh77uu54p7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hr.ferit.bozidarkelava.cashregister",
+            "certificate_hash": "83490767a978b4b56a9d40c9afc8177c56d52ea7"
+          }
+        },
+        {
+          "client_id": "797583581043-is3jmg4kj6d63cg5bpvavngpdmocqifd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjUf0zYGwOKA1sv7_T9xP_AdFO6T6Cj14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797583581043-is3jmg4kj6d63cg5bpvavngpdmocqifd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
