@@ -6,4 +6,8 @@
 
     <color name="YELLOW">#FFEB3B</color>
     <color name="BLACK">#000000</color>
+
+    <color name="RED">#F10606</color>
+
+    <color name="TRANSPARENT">#00000000</color>
 </resources>

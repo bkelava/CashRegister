@@ -1,6 +1,5 @@
-package hr.ferit.bozidarkelava.cashregister.Fragments
+package hr.ferit.bozidarkelava.cashregister.Fragments.UserRegisterFragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -8,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import hr.ferit.bozidarkelava.cashregister.Fragments.UserRegisterFragments.LoginPage
+import hr.ferit.bozidarkelava.cashregister.Interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.R
 
-class WelcomePage : Fragment(), Manager {
+class WelcomePage : Fragment(),
+    Manager {
 
     private val SPLASH_TIME_OUT: Long = 4000
 
@@ -25,16 +27,18 @@ class WelcomePage : Fragment(), Manager {
         val handler = Handler()
         handler.postDelayed({
             kotlin.run {
-                openFragment()
+                openFragment(R.id.frameWelcomePage,
+                    LoginPage()
+                )
             }
         }, SPLASH_TIME_OUT)
     }
 
-    override fun openFragment() {
+    override fun openFragment(layoutID: Int, fragment: Fragment) {
         val context = activity as AppCompatActivity
         context.supportFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-            .replace(R.id.frameWelcomePage, LoginPage())
+            .replace(layoutID, fragment)
             .commit()
     }
 }

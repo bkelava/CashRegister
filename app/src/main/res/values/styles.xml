@@ -16,6 +16,12 @@
         <item name="android:textSize">@dimen/unamePw</item>
     </style>
 
+    <style name="UserNamePasswordTextViewTransparent">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/TRANSPARENT</item>
+        <item name="android:textSize">@dimen/unamePw</item>
+    </style>
+
     <style name="UserNamePasswordEditText">
         <item name="fontFamily">@font/aclonica</item>
         <item name="android:textColor">@color/BLACK</item>
@@ -28,6 +34,12 @@
         <item name="android:textSize">@dimen/info</item>
     </style>
 
+    <style name="errorInfo">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/RED</item>
+        <item name="android:textSize">@dimen/info</item>
+    </style>
+
     <style name="login">
         <item name="fontFamily">@font/aclonica</item>
         <item name="android:textColor">@color/YELLOW</item>
@@ -37,6 +49,12 @@
     <style name="exit">
         <item name="fontFamily">@font/aclonica</item>
         <item name="android:textColor">@color/BLACK</item>
+        <item name="android:textSize">@dimen/exit</item>
+    </style>
+
+    <style name="info2">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/YELLOW</item>
         <item name="android:textSize">@dimen/exit</item>
     </style>
 

@@ -4,9 +4,15 @@
     <string name="TITLE">CASH REGISTER</string>
 
     <string name="LOGIN">LOG IN</string>
-    <string name="USERNAME">USER NAME:</string>
-    <string name="PASSWORD">PASSWROD:</string>
+    <string name="USERNAME">USER NAME</string>
+    <string name="PASSWORD">PASSWORD</string>
+    <string name="REPEATPASSWORD">REPEAT PASSWORD</string>
     <string name="info">Don\'t have account\?</string>
     <string name="signup"><u>Sign up\.</u></string>
     <string name="EXIT">EXIT</string>
+    <string name="CreateBtn">CREATE</string>
+
+    <string name="Create">Create user account\.</string>
+
+    <string name="BACK">Back</string>
 </resources>
