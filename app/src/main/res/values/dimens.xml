@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="login">75dp</dimen>
+    <dimen name="unamePw">20dp</dimen>
+    <dimen name="info">15dp</dimen>
+
+    <dimen name="exit">30dp</dimen>
+
+</resources>

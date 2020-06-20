@@ -5,6 +5,40 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="UserNamePasswordTextView">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/YELLOW</item>
+        <item name="android:textSize">@dimen/unamePw</item>
+    </style>
+
+    <style name="UserNamePasswordEditText">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/BLACK</item>
+        <item name="android:textSize">@dimen/unamePw</item>
+    </style>
+
+    <style name="Info">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/YELLOW</item>
+        <item name="android:textSize">@dimen/info</item>
+    </style>
+
+    <style name="login">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/YELLOW</item>
+        <item name="android:textSize">@dimen/login</item>
+    </style>
+
+    <style name="exit">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/BLACK</item>
+        <item name="android:textSize">@dimen/exit</item>
+    </style>
+
 
 </resources>

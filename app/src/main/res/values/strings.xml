@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Cash Register</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="TITLE">CASH REGISTER</string>
+
+    <string name="LOGIN">LOG IN</string>
+    <string name="USERNAME">USER NAME:</string>
+    <string name="PASSWORD">PASSWROD:</string>
+    <string name="info">Don\'t have account\?</string>
+    <string name="signup"><u>Sign up\.</u></string>
+    <string name="EXIT">EXIT</string>
 </resources>
