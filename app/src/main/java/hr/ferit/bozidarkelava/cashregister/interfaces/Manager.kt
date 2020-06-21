@@ -1,4 +1,4 @@
-package hr.ferit.bozidarkelava.cashregister.Interfaces
+package hr.ferit.bozidarkelava.cashregister.interfaces
 
 import androidx.fragment.app.Fragment
 

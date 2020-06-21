@@ -1,4 +1,4 @@
-package hr.ferit.bozidarkelava.cashregister.Fragments.CashRegisterFragments
+package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

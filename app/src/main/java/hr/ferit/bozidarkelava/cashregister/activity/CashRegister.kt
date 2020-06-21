@@ -1,4 +1,4 @@
-package hr.ferit.bozidarkelava.cashregister.Activity
+package hr.ferit.bozidarkelava.cashregister.activity
 
 import android.app.Application
 import android.content.Context

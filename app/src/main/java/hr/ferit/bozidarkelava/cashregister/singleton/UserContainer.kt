@@ -1,4 +1,4 @@
-package hr.ferit.bozidarkelava.cashregister.Singleton
+package hr.ferit.bozidarkelava.cashregister.singleton
 
 object UserContainer {
 

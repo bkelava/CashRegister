@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.UserRegisterFragments.LoginPage"
+    tools:context=".fragments.userRegisterFragments.LoginPage"
     android:orientation="vertical"
     android:background="@drawable/background"
     android:id="@+id/frameLoginPage">
@@ -29,11 +29,11 @@
 
         <TextView
             android:id="@+id/tvLogIn"
+            style="@style/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            style="@style/login"
             android:text="@string/LOGIN"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,62 +41,36 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.32" />
 
-        <TextView
-            android:id="@+id/tvUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            style="@style/UserNamePasswordTextView"
-            android:text="@string/USERNAME"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLogIn"
-            app:layout_constraintVertical_bias="0.19999999" />
-
         <EditText
-            android:hint="@string/USERNAME"
+            android:id="@+id/etEmail"
             style="@style/UserNamePasswordEditText"
-            android:id="@+id/etUserName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvUserName"
-            app:layout_constraintTop_toBottomOf="@+id/tvLogIn"
-            app:layout_constraintVertical_bias="0.19" />
-
-        <TextView
-            android:id="@+id/tvPassword"
-            style="@style/UserNamePasswordTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:text="@string/PASSWORD"
+            android:layout_marginEnd="25dp"
+            android:hint="@string/EMAIL"
+            android:inputType="textEmailAddress"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUserName"
-            app:layout_constraintVertical_bias="0.06999999" />
+            app:layout_constraintTop_toBottomOf="@+id/tvLogIn"
+            app:layout_constraintVertical_bias="0.060000002" />
 
         <EditText
-            android:inputType="textPassword"
-            android:hint="@string/PASSWORD"
-            style="@style/UserNamePasswordEditText"
             android:id="@+id/etPassword"
+            style="@style/UserNamePasswordEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
+            android:hint="@string/PASSWORD"
+            android:inputType="textPassword"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvPassword"
-            app:layout_constraintTop_toBottomOf="@+id/etUserName"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etEmail"
+            app:layout_constraintVertical_bias="0.110000014" />
 
         <TextView
             android:id="@+id/tvInfo"
@@ -106,40 +80,67 @@
             android:text="@string/info"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.28"
+            app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLogIn" />
+            app:layout_constraintTop_toBottomOf="@+id/etPassword"
+            app:layout_constraintVertical_bias="0.38" />
 
         <Button
 
             android:id="@+id/btnSignUp"
             style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="94dp"
+            android:layout_height="35dp"
             android:fontFamily="@font/aclonica"
-            android:textColor="@color/YELLOW"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:text="@string/signup"
+            android:textColor="@color/YELLOW"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.33"
             app:layout_constraintStart_toEndOf="@+id/tvInfo"
-            app:layout_constraintTop_toBottomOf="@+id/tvLogIn" />
+            app:layout_constraintTop_toBottomOf="@+id/etPassword"
+            app:layout_constraintVertical_bias="0.38" />" />
 
         <Button
             android:id="@+id/btnExit"
-            android:fontFamily="@font/aclonica"
-            android:textColor="@color/YELLOW"
-            android:textSize="30dp"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/aclonica"
             android:text="@string/EXIT"
+            android:textColor="@color/YELLOW"
+            android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLogIn"
-            app:layout_constraintVertical_bias="0.74" />
+            app:layout_constraintTop_toBottomOf="@+id/tvInfo"
+            app:layout_constraintVertical_bias="0.19999999" />
+
+        <Button
+            android:id="@+id/btnLogIn"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aclonica"
+            android:text="@string/LOGIN"
+            android:textColor="@color/YELLOW"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+            app:layout_constraintVertical_bias="0.64" />
+
+        <TextView
+            android:id="@+id/tvInformation"
+            style="@style/Info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnExit" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

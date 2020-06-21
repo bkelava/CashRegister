@@ -4,7 +4,7 @@
     <string name="TITLE">CASH REGISTER</string>
 
     <string name="LOGIN">LOG IN</string>
-    <string name="USERNAME">USER NAME</string>
+    <string name="EMAIL">E-MAIL</string>
     <string name="PASSWORD">PASSWORD</string>
     <string name="REPEATPASSWORD">REPEAT PASSWORD</string>
     <string name="info">Don\'t have account\?</string>

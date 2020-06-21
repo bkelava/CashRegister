@@ -1,4 +1,4 @@
-package hr.ferit.bozidarkelava.cashregister.ViewModels
+package hr.ferit.bozidarkelava.cashregister.viewModels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

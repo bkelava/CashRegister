@@ -1,37 +1,43 @@
-package hr.ferit.bozidarkelava.cashregister.Fragments.UserRegisterFragments
+package hr.ferit.bozidarkelava.cashregister.fragments.userRegisterFragments
 
 import android.os.Bundle
-import android.os.Handler
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import hr.ferit.bozidarkelava.cashregister.Fragments.UserRegisterFragments.LoginPage
-import hr.ferit.bozidarkelava.cashregister.Interfaces.Manager
+import androidx.fragment.app.Fragment
+import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.R
+import kotlinx.android.synthetic.main.fragment_login_page.view.*
+import kotlinx.android.synthetic.main.fragment_login_page.view.btnExit
 
-class WelcomePage : Fragment(),
+class LoginPage : Fragment(),
     Manager {
 
-    private val SPLASH_TIME_OUT: Long = 4000
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_welcome_page, container, false)
-        return view
+        val view = inflater.inflate(R.layout.fragment_login_page, container, false)
+        return view;
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        signUp(view)
+        exit(view);
+    }
 
-        val handler = Handler()
-        handler.postDelayed({
-            kotlin.run {
-                openFragment(R.id.frameWelcomePage,
-                    LoginPage()
-                )
-            }
-        }, SPLASH_TIME_OUT)
+    private fun signUp(view: View) {
+        view.btnSignUp.setOnClickListener {
+            openFragment(R.id.frameLoginPage,
+                SignUpPage()
+            )
+        }
+    }
+
+    private fun exit(view: View)
+    {
+        view.btnExit.setOnClickListener(){
+            System.exit(0);
+        }
     }
 
     override fun openFragment(layoutID: Int, fragment: Fragment) {

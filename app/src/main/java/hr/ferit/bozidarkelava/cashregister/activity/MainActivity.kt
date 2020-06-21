@@ -1,11 +1,11 @@
-package hr.ferit.bozidarkelava.cashregister.Activity
+package hr.ferit.bozidarkelava.cashregister.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import hr.ferit.bozidarkelava.cashregister.Interfaces.Manager
-import hr.ferit.bozidarkelava.cashregister.Fragments.UserRegisterFragments.WelcomePage
+import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
+import hr.ferit.bozidarkelava.cashregister.fragments.userRegisterFragments.WelcomePage
 import hr.ferit.bozidarkelava.cashregister.R
 
 class MainActivity : AppCompatActivity(),
