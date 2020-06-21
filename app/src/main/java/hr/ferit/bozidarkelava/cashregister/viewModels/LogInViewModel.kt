@@ -3,11 +3,11 @@ package hr.ferit.bozidarkelava.cashregister.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SignUpViewModel: ViewModel() {
+class LogInViewModel: ViewModel() {
 
     var notification = MutableLiveData<String>() //live data
 
-    fun setSignUpNotificationText(text: String) {
+    fun setLogInNotificationText(text: String) {
         this.notification.value=text
     }
 }
