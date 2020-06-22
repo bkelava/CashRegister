@@ -13,8 +13,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.StringValues
@@ -23,6 +21,7 @@ import hr.ferit.bozidarkelava.cashregister.viewModels.SignUpViewModel
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentSignUpPageBinding
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.isEmailValid
+import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
 import kotlin.collections.HashMap
 
 class SignUpPage : Fragment(), Manager, MVVM {
@@ -87,7 +86,6 @@ class SignUpPage : Fragment(), Manager, MVVM {
                                     OnCompleteListener {task ->
                                         if (task.result?.signInMethods!!.isEmpty()) {
                                             userID = firebaseAuth.currentUser!!.uid
-                                            Log.d("KEY", userID)
                                             firebaseReference = FirebaseDatabase.getInstance().reference.child(strValues.USERS).child(userID)
 
                                             var user = HashMap<String,Any>()
@@ -95,13 +93,13 @@ class SignUpPage : Fragment(), Manager, MVVM {
                                             user["userID"]=userID
 
                                             firebaseReference.updateChildren(user).addOnCompleteListener() {
+                                                UserContainer.setEmail(email)
                                                 openFragment(R.id.frameSignUpPage, MainMenu())
                                             }
                                         }
                                         else {
                                             viewModel.setSignUpNotificationText(strValues.USER_ALREADY_EXIST)
                                             clearFields()
-
                                         }
                                     })
                             }

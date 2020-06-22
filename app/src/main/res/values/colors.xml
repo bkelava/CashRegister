@@ -10,4 +10,6 @@
     <color name="RED">#F10606</color>
 
     <color name="TRANSPARENT">#00000000</color>
+
+    <color name="WHITE">#FFFFFF</color>
 </resources>

@@ -4,6 +4,8 @@
     <dimen name="unamePw">20dp</dimen>
     <dimen name="info">15dp</dimen>
 
+    <dimen name="CompanyEtSize">15dp</dimen>
+
     <dimen name="exit">30dp</dimen>
 
 </resources>

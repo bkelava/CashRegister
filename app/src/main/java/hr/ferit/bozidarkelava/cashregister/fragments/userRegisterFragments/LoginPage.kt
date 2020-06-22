@@ -1,7 +1,6 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.userRegisterFragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,21 +9,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.protobuf.StringValue
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentLoginPageBinding
-import hr.ferit.bozidarkelava.cashregister.databinding.FragmentSignUpPageBinding
+import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.StringValues
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.isEmailValid
+import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.LogInViewModel
-import hr.ferit.bozidarkelava.cashregister.viewModels.SignUpViewModel
-import kotlinx.android.synthetic.main.fragment_login_page.view.*
-import kotlinx.android.synthetic.main.fragment_login_page.view.btnExit
 import kotlin.system.exitProcess
 
 class LoginPage : Fragment(), Manager, MVVM {
@@ -65,36 +60,47 @@ class LoginPage : Fragment(), Manager, MVVM {
     }
 
     override fun setUpBinding() {
-        binding.notification = viewModel
+        binding.apply {
+            binding.notification = viewModel
 
-        binding.btnSignUp.setOnClickListener {
-            openFragment(R.id.frameLoginPage, SignUpPage())
-        }
+            binding.btnSignUp.setOnClickListener {
+                openFragment(R.id.frameLoginPage, SignUpPage())
+            }
 
-        binding.btnExit.setOnClickListener() {
-            exitProcess(0);
-        }
+            binding.btnExit.setOnClickListener() {
+                exitProcess(0);
+            }
 
-        binding.btnLogIn.setOnClickListener() {
-            val email = binding.etEmail.text.toString()
-            val password = binding.etPassword.text.toString()
+            binding.btnLogIn.setOnClickListener() {
+                val email = binding.etEmail.text.toString()
+                val password = binding.etPassword.text.toString()
 
-            if (email.isEmpty() || password.isEmpty()) {
-                viewModel.setLogInNotificationText(strValues.ERROR_EMAIL_PASSWORD)
-            } else {
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener() {
-                    firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(
-                        OnCompleteListener {task ->
-                            if (task.result?.signInMethods!!.isEmpty()) {
-                                viewModel.setLogInNotificationText(strValues.USER_NOT_FOUND)
-                                clearFields()
+                if (email.isEmpty() || password.isEmpty()) {
+                    viewModel.setLogInNotificationText(strValues.ERROR_EMAIL_PASSWORD)
+                } else {
+                    viewModel.setLogInNotificationText(strValues.PROCESSING)
+                    if (email.isEmailValid()) {
+                        firebaseAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener() {
+                                firebaseAuth.fetchSignInMethodsForEmail(email)
+                                    .addOnCompleteListener(
+                                        OnCompleteListener { task ->
+                                            if (task.result?.signInMethods!!.isEmpty()) {
+                                                viewModel.setLogInNotificationText(strValues.USER_NOT_FOUND)
+                                                clearFields()
+                                            } else {
+                                                UserContainer.setEmail(email)
+                                                openFragment(R.id.frameLoginPage, CompanyRegistration())
+                                            }
+                                        })
                             }
-                            else {
-                                openFragment(R.id.frameLoginPage, MainMenu())
-                            }
-                        })
+                    }
+                    else {
+                        viewModel.setLogInNotificationText(strValues.EMAIL_ERROR)
+                        clearFields()
+                    }
+
                 }
-
             }
         }
     }

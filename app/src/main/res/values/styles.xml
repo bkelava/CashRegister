@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -57,6 +58,5 @@
         <item name="android:textColor">@color/YELLOW</item>
         <item name="android:textSize">@dimen/exit</item>
     </style>
-
 
 </resources>

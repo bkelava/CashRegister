@@ -18,4 +18,6 @@ class StringValues {
 
     val USER_ALREADY_EXIST: String = "User already exist!"
 
+    val EMAIL_ERROR: String = "E-mail address is not valid!"
+
 }

@@ -15,4 +15,14 @@
     <string name="Create">Create user account\.</string>
 
     <string name="BACK">Back</string>
+
+    <string name="REGISTER_COMPANY">Register your company</string>
+    <string name="COMPANY_NAME">Company name</string>
+    <string name="COMPANY_ADRESS">Company adress</string>
+    <string name="COMPANY_CITY_POSTAL_CODE">Company city and Postal Code</string>
+    <string name="COMPANY_CONTACT_NUMBER">Contact Number</string>
+    <string name="CEO">Company CEO name</string>
+    <string name="COMPANY_EMAIL">Company E\-mail address</string>
+
+    <string name="SAVE">SAVE</string>
 </resources>

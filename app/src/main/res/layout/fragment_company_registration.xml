@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="info"
+            type="hr.ferit.bozidarkelava.cashregister.viewModels.CompanyRegistrationViewModel" />
+    </data>
+
+<FrameLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.cashRegisterFragments.CompanyRegistration"
+    android:id="@+id/frameCompanyRegistration"
+    android:background="@drawable/background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/etCompanyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+
+            android:background="@color/BLACK"
+            android:fontFamily="@font/aclonica"
+            android:hint="@string/COMPANY_NAME"
+            android:padding="5dp"
+            android:textColorHint="@color/WHITE"
+            android:textSize="@dimen/CompanyEtSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvReisterYourCompany"
+            app:layout_constraintVertical_bias="0.100000024" />
+
+        <EditText
+
+            android:id="@+id/etCompanyAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+
+            android:background="@color/BLACK"
+            android:fontFamily="@font/aclonica"
+            android:hint="@string/COMPANY_ADRESS"
+            android:padding="5dp"
+            android:textColorHint="@color/WHITE"
+            android:textSize="@dimen/CompanyEtSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyName"
+            app:layout_constraintVertical_bias="0.060000002" />" />
+
+        <EditText
+
+            android:id="@+id/etCompanyContact"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@color/BLACK"
+            android:fontFamily="@font/aclonica"
+            android:hint="@string/COMPANY_CONTACT_NUMBER"
+            android:padding="5dp"
+            android:textColorHint="@color/WHITE"
+            android:textSize="@dimen/CompanyEtSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyCityAndPostal"
+            app:layout_constraintVertical_bias="0.07999998" />
+
+        <EditText
+            android:id="@+id/etCompanyCityAndPostal"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@color/BLACK"
+            android:fontFamily="@font/aclonica"
+            android:hint="@string/COMPANY_CITY_POSTAL_CODE"
+            android:padding="5dp"
+            android:textColorHint="@color/WHITE"
+            android:textSize="@dimen/CompanyEtSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyAddress"
+            app:layout_constraintVertical_bias="0.06999999" />
+
+        <EditText
+            android:id="@+id/etCompanyCEO"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+
+            android:background="@color/BLACK"
+            android:fontFamily="@font/aclonica"
+            android:hint="@string/CEO"
+            android:padding="5dp"
+            android:textColorHint="@color/WHITE"
+            android:textSize="@dimen/CompanyEtSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyContact"
+            app:layout_constraintVertical_bias="0.110000014" />" />
+
+        <EditText
+            android:id="@+id/etCompanyEmail"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:inputType="none"
+
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@color/BLACK"
+            android:fontFamily="@font/aclonica"
+            android:hint="@string/EMAIL"
+            android:text="@{info.email.toString()}"
+            android:padding="5dp"
+            android:textColorHint="@color/WHITE"
+            android:textSize="@dimen/CompanyEtSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyCEO"
+            app:layout_constraintVertical_bias="0.13999999" />
+
+        <TextView
+            android:id="@+id/tvReisterYourCompany"
+            style="@style/info2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.100000024"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/REGISTER_COMPANY"
+            android:textSize="25dp" />
+
+        <Button
+            android:id="@+id/btnSaveInformation"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyEmail"
+            app:layout_constraintVertical_bias="0.22000003"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aclonica"
+            android:text="@string/SAVE"
+            android:textColor="@color/YELLOW"
+            android:textSize="@dimen/exit" />
+
+        <Button
+            android:id="@+id/btnExit"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.77"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyEmail"
+            app:layout_constraintVertical_bias="0.22000003"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/aclonica"
+            android:text="@string/EXIT"
+            android:textColor="@color/YELLOW"
+            android:textSize="@dimen/exit" />
+
+        <TextView
+            android:id="@+id/tvErrorInfo"
+            style="@style/errorInfo"
+            android:text="@{info.notification.toString()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.94"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
+
+</layout>
