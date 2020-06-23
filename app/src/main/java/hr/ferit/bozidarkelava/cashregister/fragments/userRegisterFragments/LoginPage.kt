@@ -1,6 +1,7 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.userRegisterFragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.auth.User
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.R
+import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentLoginPageBinding
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
@@ -23,6 +26,8 @@ import hr.ferit.bozidarkelava.cashregister.viewModels.LogInViewModel
 import kotlin.system.exitProcess
 
 class LoginPage : Fragment(), Manager, MVVM {
+
+    private var companyInformationDao = CashRegisterDatabase.getInstance().companyInformationDao()
 
     private val strValues = StringValues()
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -72,38 +77,60 @@ class LoginPage : Fragment(), Manager, MVVM {
             }
 
             binding.btnLogIn.setOnClickListener() {
-                val email = binding.etEmail.text.toString()
-                val password = binding.etPassword.text.toString()
-
-                if (email.isEmpty() || password.isEmpty()) {
-                    viewModel.setLogInNotificationText(strValues.ERROR_EMAIL_PASSWORD)
-                } else {
-                    viewModel.setLogInNotificationText(strValues.PROCESSING)
-                    if (email.isEmailValid()) {
-                        firebaseAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener() {
-                                firebaseAuth.fetchSignInMethodsForEmail(email)
-                                    .addOnCompleteListener(
-                                        OnCompleteListener { task ->
-                                            if (task.result?.signInMethods!!.isEmpty()) {
-                                                viewModel.setLogInNotificationText(strValues.USER_NOT_FOUND)
-                                                clearFields()
-                                            } else {
-                                                UserContainer.setEmail(email)
-                                                openFragment(R.id.frameLoginPage, CompanyRegistration())
-                                            }
-                                        })
-                            }
-                    }
-                    else {
-                        viewModel.setLogInNotificationText(strValues.EMAIL_ERROR)
-                        clearFields()
-                    }
-
-                }
+                login()
             }
         }
     }
+
+    private fun login() {
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+
+        if (email.isEmpty() || password.isEmpty()) {
+            viewModel.setLogInNotificationText(strValues.ERROR_EMAIL_PASSWORD)
+        } else {
+            viewModel.setLogInNotificationText(strValues.PROCESSING)
+            if (email.isEmailValid()) {
+                        firebaseAuth.fetchSignInMethodsForEmail(email)
+                            .addOnCompleteListener(
+                                OnCompleteListener { task ->
+                                    if (task.result?.signInMethods!!.isEmpty()) {
+                                        viewModel.setLogInNotificationText(strValues.USER_NOT_FOUND)
+                                        clearFields()
+                                    } else {
+                                        firebaseAuth.signInWithEmailAndPassword(email, password)
+                                            .addOnCompleteListener() { task ->
+                                                if (task.isSuccessful) {
+                                                    UserContainer.setEmail(email)
+                                                    if (companyInformationDao.checkUserByEmail(
+                                                            UserContainer.getEmail()
+                                                        ).isNotEmpty()
+                                                    ) {
+                                                        openFragment(
+                                                            R.id.frameLoginPage,
+                                                            MainMenu()
+                                                        )
+                                                    } else {
+                                                        openFragment(
+                                                            R.id.frameLoginPage,
+                                                            CompanyRegistration()
+                                                        )
+                                                    }
+                                                } else {
+                                                    viewModel.setLogInNotificationText(strValues.PASSWROD_ERROR)
+                                                }
+                                            }
+                                    }
+                                })
+
+            } else {
+                viewModel.setLogInNotificationText(strValues.EMAIL_ERROR)
+                clearFields()
+            }
+
+        }
+    }
+
     override fun openFragment(layoutID: Int, fragment: Fragment) {
         val context = activity as AppCompatActivity
         context.supportFragmentManager.beginTransaction()
@@ -112,8 +139,7 @@ class LoginPage : Fragment(), Manager, MVVM {
             .commit()
     }
 
-    private fun clearFields()
-    {
+    private fun clearFields() {
         binding.etEmail.setText("")
         binding.etPassword.setText("")
     }

@@ -22,6 +22,7 @@
         android:layout_height="match_parent">
 
         <EditText
+            android:textColor="@color/WHITE"
             android:id="@+id/etCompanyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
             app:layout_constraintVertical_bias="0.100000024" />
 
         <EditText
-
+            android:textColor="@color/WHITE"
             android:id="@+id/etCompanyAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +62,7 @@
             app:layout_constraintVertical_bias="0.060000002" />" />
 
         <EditText
-
+            android:textColor="@color/WHITE"
             android:id="@+id/etCompanyContact"
             android:layout_width="match_parent"
             android:layout_height="37dp"
@@ -81,6 +82,7 @@
             app:layout_constraintVertical_bias="0.07999998" />
 
         <EditText
+            android:textColor="@color/WHITE"
             android:id="@+id/etCompanyCityAndPostal"
             android:layout_width="match_parent"
             android:layout_height="37dp"
@@ -100,6 +102,8 @@
             app:layout_constraintVertical_bias="0.06999999" />
 
         <EditText
+            android:textColor="@color/WHITE"
+
             android:id="@+id/etCompanyCEO"
             android:layout_width="match_parent"
             android:layout_height="37dp"
@@ -119,6 +123,7 @@
             app:layout_constraintVertical_bias="0.110000014" />" />
 
         <EditText
+            android:textColor="@color/WHITE"
             android:id="@+id/etCompanyEmail"
             android:layout_width="match_parent"
             android:layout_height="37dp"
@@ -137,7 +142,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etCompanyCEO"
-            app:layout_constraintVertical_bias="0.13999999" />
+            app:layout_constraintVertical_bias="0.13999999"
+            tools:ignore="TextFields" />
 
         <TextView
             android:id="@+id/tvReisterYourCompany"
@@ -187,14 +193,14 @@
         <TextView
             android:id="@+id/tvErrorInfo"
             style="@style/errorInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@{info.notification.toString()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.94"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            app:layout_constraintTop_toBottomOf="@+id/etCompanyEmail"
+            app:layout_constraintVertical_bias="0.64" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

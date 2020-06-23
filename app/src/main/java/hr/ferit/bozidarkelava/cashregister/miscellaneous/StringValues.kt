@@ -20,4 +20,8 @@ class StringValues {
 
     val EMAIL_ERROR: String = "E-mail address is not valid!"
 
+    val FIELD_ERROR: String ="Some of the required fields are empty!"
+
+    val PASSWROD_ERROR: String = "Password is incorrect!"
+
 }
