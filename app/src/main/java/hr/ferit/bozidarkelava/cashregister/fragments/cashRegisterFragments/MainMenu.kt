@@ -1,7 +1,6 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +8,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import hr.ferit.bozidarkelava.cashregister.R
-import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentMainMenuBinding
 import hr.ferit.bozidarkelava.cashregister.fragments.userRegisterFragments.LoginPage
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
-import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
-import kotlinx.android.synthetic.main.fragment_main_menu.*
 import kotlin.system.exitProcess
 
 class MainMenu : Fragment(), Manager, MVVM {
@@ -58,8 +54,12 @@ class MainMenu : Fragment(), Manager, MVVM {
             exitProcess(0)
         }
 
-        binding.btnStock.setOnClickListener() {
-            openFragment(R.id.frameMainMenu, Stock())
+        binding.btnAddToStock.setOnClickListener() {
+            openFragment(R.id.frameMainMenu, AddToStock())
+        }
+
+        binding.btnViewStock.setOnClickListener() {
+            openFragment(R.id.frameMainMenu, ViewStock())
         }
     }
 }

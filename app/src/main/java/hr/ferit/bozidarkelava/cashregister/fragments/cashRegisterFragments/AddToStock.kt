@@ -12,13 +12,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import hr.ferit.bozidarkelava.cashregister.R
+import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
+import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentStockBinding
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.StockViewModel
+import java.lang.Double.parseDouble
+import java.lang.Integer.parseInt
 
-class Stock : Fragment(), Manager, MVVM {
+class AddToStock : Fragment(), Manager, MVVM {
+
+    private val productDao = CashRegisterDatabase.getInstance().productDao()
 
     private lateinit var binding: FragmentStockBinding
     private lateinit var viewModel: StockViewModel
@@ -79,9 +85,24 @@ class Stock : Fragment(), Manager, MVVM {
             }
 
             binding.btnSaveProductOrService.setOnClickListener() {
-                //TBC
+                saveProduct()
             }
         }
+    }
+
+    private fun saveProduct() {
+        val type: String = ItemContainer.getProductType()
+        val name = binding.etProductOrServiceName.text.toString()
+        val unit = binding.etProductOrServiceUnitMeasure.text.toString()
+        val quantity: Int = parseInt(binding.etProductQuantity.text.toString())
+        val price: Double = parseDouble(binding.etPrice.text.toString())
+
+        val id: Int = productDao.seletMaxId() + 1
+
+        val product: Product = Product(id, type, name, unit, quantity, price)
+
+        productDao.insert(product)
+        resetFields()
     }
 
     private fun resetFields() {
@@ -89,6 +110,7 @@ class Stock : Fragment(), Manager, MVVM {
         binding.etProductOrServiceUnitMeasure.setText("")
         binding.etProductQuantity.setText("")
         binding.etPrice.setText("")
+        viewModel.setProductType("")
         disableFields()
     }
 
@@ -118,7 +140,7 @@ class Stock : Fragment(), Manager, MVVM {
         alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.setSingleChoiceItems(
             items,
-            0,
+            -1,
             DialogInterface.OnClickListener() { dialog: DialogInterface, which: Int ->
                 ItemContainer.setProductType(items[which].toString())
                 viewModel.setProductType(ItemContainer.getProductType())

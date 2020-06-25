@@ -6,11 +6,15 @@ import androidx.room.RoomDatabase
 import hr.ferit.bozidarkelava.cashregister.activity.CashRegister
 import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformation
 import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformationDao
+import hr.ferit.bozidarkelava.cashregister.database.tables.Product
+import hr.ferit.bozidarkelava.cashregister.database.tables.ProductDao
 
-@androidx.room.Database(version = 1, entities = arrayOf(CompanyInformation::class))
+@androidx.room.Database(version = 1, entities = arrayOf(CompanyInformation::class, Product::class))
 abstract class CashRegisterDatabase: RoomDatabase() {
 
     abstract fun companyInformationDao(): CompanyInformationDao
+    abstract fun productDao(): ProductDao
+
     companion object {
         private const val  NAME ="InspiringPersonsDatabase"
         private var INSTANCE: CashRegisterDatabase? = null

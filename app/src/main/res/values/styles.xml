@@ -53,6 +53,12 @@
         <item name="android:textSize">@dimen/exit</item>
     </style>
 
+    <style name="exitMM">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/BLACK</item>
+        <item name="android:textSize">@dimen/mainMenu</item>
+    </style>
+
     <style name="info2">
         <item name="fontFamily">@font/aclonica</item>
         <item name="android:textColor">@color/YELLOW</item>

@@ -4,6 +4,8 @@
     <dimen name="unamePw">20dp</dimen>
     <dimen name="info">15dp</dimen>
 
+    <dimen name="viewstock">50dp</dimen>
+
     <dimen name="CompanyEtSize">15dp</dimen>
 
     <dimen name="exit">30dp</dimen>
@@ -14,7 +16,7 @@
 
     <dimen name="title">25dp</dimen>
 
-    <dimen name="editTextInput">25dp</dimen>
+    <dimen name="editTextInput">20dp</dimen>
 
     <dimen name="tvInfo">15dp</dimen>
 
