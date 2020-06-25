@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="product"
+            type="hr.ferit.bozidarkelava.cashregister.viewModels.StockViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.cashRegisterFragments.Stock"
+        android:id="@+id/frameStock"
+        android:background="@drawable/background">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/aclonica"
+                android:text="@string/productAndSrevicae"
+                android:textColor="@color/YELLOW"
+                android:textSize="@dimen/title"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tvChooseProductOrService"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/BLACK"
+                android:fontFamily="@font/aclonica"
+                android:text="@string/Choice"
+                android:textColor="@color/WHITE"
+                android:textSize="@dimen/editTextInput"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintVertical_bias="0.050000012" />
+
+            <Button
+                android:id="@+id/btnChoose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/aclonica"
+                android:text="@string/choose"
+                android:textSize="@dimen/editTextInput"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.02"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvChooseProductOrService"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/aclonica"
+                android:text="@{product.productType.toString()}"
+                android:textColor="@color/RED"
+                android:textSize="@dimen/editTextInput"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvChooseProductOrService"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/etProductOrServiceName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/BLACK"
+                android:fontFamily="@font/aclonica"
+                android:hint="@string/ProductOrServiceName"
+                android:maxLength="70"
+                android:padding="@dimen/mainMenuButtonPadding10dp"
+                android:textColor="@color/WHITE"
+                android:textColorHint="@color/WHITE"
+                android:textSize="@dimen/editTextInput"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvChooseProductOrService"
+                app:layout_constraintVertical_bias="0.17000002" />
+
+            <TextView
+                android:id="@+id/tvProdServInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/maxInput70"
+                android:textColor="@color/RED"
+                android:textSize="@dimen/tvInfo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etProductOrServiceName"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/etProductOrServiceUnitMeasure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/BLACK"
+                android:fontFamily="@font/aclonica"
+                android:hint="@string/unitMeasure"
+                android:maxLength="5"
+                android:padding="@dimen/mainMenuButtonPadding10dp"
+                android:textColor="@color/WHITE"
+                android:textColorHint="@color/WHITE"
+                android:textSize="@dimen/editTextInput"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etProductOrServiceName"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tvUnitMeasureInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/maxInput5"
+                android:textColor="@color/RED"
+                android:textSize="@dimen/tvInfo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etProductOrServiceUnitMeasure"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+            <EditText
+                android:id="@+id/etProductQuantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/BLACK"
+                android:fontFamily="@font/aclonica"
+                android:hint="@string/productQuantity"
+                android:padding="@dimen/mainMenuButtonPadding10dp"
+                android:textColor="@color/WHITE"
+                android:textColorHint="@color/WHITE"
+                android:textSize="@dimen/editTextInput"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etProductOrServiceUnitMeasure"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tvProductQuantityInfo"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/numeric"
+                android:textColor="@color/RED"
+                android:textSize="@dimen/tvInfo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etProductQuantity"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/etPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/BLACK"
+                android:fontFamily="@font/aclonica"
+                android:hint="@string/price"
+                android:inputType="numberDecimal"
+                android:padding="@dimen/mainMenuButtonPadding10dp"
+                android:textColor="@color/WHITE"
+                android:textColorHint="@color/WHITE"
+                android:textSize="@dimen/editTextInput"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etProductQuantity"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tvPriceInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/decimal"
+                android:textColor="@color/RED"
+                android:textSize="@dimen/tvInfo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etPrice"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/btnSaveProductOrService"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/aclonica"
+                android:text="@string/SAVE"
+                android:textColor="@color/YELLOW"
+                android:textSize="@dimen/exit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etPrice"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/btnBack"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="25dp"
+                android:fontFamily="@font/aclonica"
+                android:text="@string/BACK"
+                android:textColor="@color/YELLOW"
+                android:textSize="@dimen/exit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etPrice"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/btnReset"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aclonica"
+                android:text="@string/reset"
+                android:textColor="@color/YELLOW"
+                android:textSize="@dimen/exit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etPrice" />
+
+            <TextView
+                android:id="@+id/tvErrorInfo"
+                style="@style/errorInfo"
+                android:text="@{product.notification.toString()}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnReset" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

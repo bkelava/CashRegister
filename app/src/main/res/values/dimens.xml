@@ -8,4 +8,16 @@
 
     <dimen name="exit">30dp</dimen>
 
+    <dimen name="mainMenu">25dp</dimen>
+
+    <dimen name="mainMenuButtonPadding10dp">10dp</dimen>
+
+    <dimen name="title">25dp</dimen>
+
+    <dimen name="editTextInput">25dp</dimen>
+
+    <dimen name="tvInfo">15dp</dimen>
+
+    <dimen name="choice">15dp</dimen>
+
 </resources>

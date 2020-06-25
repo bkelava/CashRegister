@@ -25,4 +25,34 @@
     <string name="COMPANY_EMAIL">Company E\-mail address</string>
 
     <string name="SAVE">SAVE</string>
+
+    <string name="CASH_REGISTER">CASH REGISTER</string>
+    <string name="STOCK">STOCK</string>
+    <string name="COMPANY_INFO">COMPANY INFO</string>
+
+    <string name="ABOUT_APPLICATION">ABOUT CASH REGISTER</string>
+
+    <string name="logout">LOG OUT</string>
+
+    <string name="productAndSrevicae">ADD PRODUCT OR SERVICE</string>
+
+    <string name="ProductOrServiceName">Product or Service Name</string>
+
+    <string name="maxInput70">Max input is 70 chars</string>
+    <string name="maxInput5">Max input is 5 chars</string>
+    
+    <string name="unitMeasure">Unit Measure</string>
+
+    <string name="Choice">Choose product or service</string>
+    <string name="choose">Choose</string>
+
+    <string name="productQuantity">Product Quantity</string>
+
+    <string name="price">Price</string>
+
+    <string name="numeric">Numeric value only</string>
+
+    <string name="decimal">Decimal value only</string>
+
+    <string name="reset">RESET</string>
 </resources>

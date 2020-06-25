@@ -59,4 +59,12 @@
         <item name="android:textSize">@dimen/exit</item>
     </style>
 
+    <style name="mainMenu">
+        <item name="background">@color/mainMenuButtons</item>
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/YELLOW</item>
+        <item name="android:textSize">@dimen/mainMenu</item>
+        <item name="buttonTint">@color/mainMenuButtons</item>
+    </style>
+
 </resources>

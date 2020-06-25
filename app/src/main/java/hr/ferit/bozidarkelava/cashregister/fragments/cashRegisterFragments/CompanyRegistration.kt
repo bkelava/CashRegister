@@ -13,20 +13,18 @@ import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
 import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformation
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentCompanyRegistrationBinding
-import hr.ferit.bozidarkelava.cashregister.databinding.FragmentSignUpPageBinding
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.StringValues
 import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.CompanyRegistrationViewModel
-import hr.ferit.bozidarkelava.cashregister.viewModels.SignUpViewModel
 import kotlin.system.exitProcess
 
 
 class CompanyRegistration : Fragment(), Manager, MVVM  {
 
     private var companyInformationDao = CashRegisterDatabase.getInstance().companyInformationDao()
-    private var strValues: StringValues = StringValues()
+    private var stringValues = StringValues()
 
     private lateinit var binding: FragmentCompanyRegistrationBinding
     private lateinit var viewModel: CompanyRegistrationViewModel
@@ -37,6 +35,7 @@ class CompanyRegistration : Fragment(), Manager, MVVM  {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpFragment()
     }
 
@@ -67,33 +66,32 @@ class CompanyRegistration : Fragment(), Manager, MVVM  {
             }
 
             binding.btnSaveInformation.setOnClickListener() {
-                viewModel.setCompanyRegistrationNotificationText(strValues.PROCESSING)
-                val companyName = binding.etCompanyName.text.toString()
-                val companyAddress = binding.etCompanyAddress.text.toString()
-                val companyCityAndPostal = binding.etCompanyCityAndPostal.text.toString()
-                val companyContact = binding.etCompanyContact.text.toString()
-                val companyCEO = binding.etCompanyCEO.text.toString()
-                val companyEmail = binding.etCompanyEmail.text.toString()
-
-                if (companyName == "" || companyAddress == "" || companyCityAndPostal==""||companyContact=="" || companyCEO=="" ||companyEmail=="") {
-                    Log.d("SOMEASJL FAJGA",strValues.FIELD_ERROR)
-                    viewModel.setCompanyRegistrationNotificationText(strValues.PROCESSING)
-                }
-                else {
-                    val id: Int = companyInformationDao.seletMaxId() + 1
-                    val companyInfo = CompanyInformation(id, companyName, companyAddress, companyCityAndPostal, companyContact, companyCEO, companyEmail)
-                    companyInformationDao.insert(companyInfo)
-                    clearFields()
-                    Log.d("SOMEASJL FAJGA",viewModel.setCompanyRegistrationNotificationText(strValues.PROCESSING).toString())
-                    viewModel.setCompanyRegistrationNotificationText(strValues.PROCESSING)
-                    openFragment(R.id.frameCompanyRegistration, MainMenu())
-                }
+                insertInfo()
             }
         }
+        viewModel.notification.observe(this.requireActivity(), androidx.lifecycle.Observer { binding.invalidateAll() })
+        viewModel.email.observe(this.requireActivity(), androidx.lifecycle.Observer { binding.invalidateAll() })
     }
 
     private fun insertInfo() {
+        val companyName = binding.etCompanyName.text.toString()
+        val companyAddress = binding.etCompanyAddress.text.toString()
+        val companyCityAndPostal = binding.etCompanyCityAndPostal.text.toString()
+        val companyContact = binding.etCompanyContact.text.toString()
+        val companyCEO = binding.etCompanyCEO.text.toString()
+        val companyEmail = binding.etCompanyEmail.text.toString()
 
+        if (companyName == "" || companyAddress == "" || companyCityAndPostal==""||companyContact=="" || companyCEO=="" ||companyEmail=="") {
+            viewModel.setCompanyRegistrationNotificationText("Some of the required fields are empty!")
+        }
+        else {
+            val id: Int = companyInformationDao.seletMaxId() + 1
+            val companyInfo = CompanyInformation(id, companyName, companyAddress, companyCityAndPostal, companyContact, companyCEO, companyEmail)
+            companyInformationDao.insert(companyInfo)
+            clearFields()
+            viewModel.setCompanyRegistrationNotificationText("PROCESSING")
+            openFragment(R.id.frameCompanyRegistration, MainMenu())
+        }
     }
 
     private fun clearFields()

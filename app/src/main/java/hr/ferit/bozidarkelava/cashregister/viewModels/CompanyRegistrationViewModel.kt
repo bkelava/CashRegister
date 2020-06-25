@@ -10,7 +10,7 @@ class CompanyRegistrationViewModel: ViewModel() {
     var email = MutableLiveData<String>()
 
     fun setCompanyRegistrationNotificationText(text: String) {
-        notification.value = text
+        this.notification.value = text
     }
 
     fun setEmail(email: String) {

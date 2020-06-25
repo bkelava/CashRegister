@@ -19,6 +19,7 @@ import hr.ferit.bozidarkelava.cashregister.miscellaneous.StringValues
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.viewModels.SignUpViewModel
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentSignUpPageBinding
+import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.isEmailValid
 import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
@@ -36,7 +37,11 @@ class SignUpPage : Fragment(), Manager, MVVM {
 
     private var userID: String = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up_page, container, false)
         return view
     }
@@ -46,21 +51,20 @@ class SignUpPage : Fragment(), Manager, MVVM {
         setUpFragment()
     }
 
-    override fun setUpFragment()
-    {
+    override fun setUpFragment() {
         setUpUI()
         setUpBinding()
     }
 
     override fun setUpUI() {
-        binding = DataBindingUtil.setContentView(this.requireActivity(), R.layout.fragment_sign_up_page)
+        binding =
+            DataBindingUtil.setContentView(this.requireActivity(), R.layout.fragment_sign_up_page)
         viewModel = ViewModelProviders.of(this).get(SignUpViewModel::class.java)
     }
 
-    override fun setUpBinding()
-    {
+    override fun setUpBinding() {
         binding.apply {
-            binding.notification=viewModel
+            binding.notification = viewModel
             binding.btnBack.setOnClickListener() {
                 openFragment(R.id.frameSignUpPage, LoginPage())
             }
@@ -72,46 +76,44 @@ class SignUpPage : Fragment(), Manager, MVVM {
 
                 if (email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty() && !email.isEmailValid()) {
                     viewModel.setSignUpNotificationText(strValues.ERROR_EMAIL_PASSWORD)
-                }
-                else {
-                    if (password.length <=6)
-                    {
+                } else {
+                    if (password.length <= 6) {
                         viewModel.setSignUpNotificationText(strValues.PASSWORD_SHORT)
-                    }
-                    else {
+                    } else {
                         if (password == repeatPassword) {
                             viewModel.setSignUpNotificationText(strValues.PROCESSING)
-                            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                                firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(
-                                    OnCompleteListener {task ->
-                                        if (task.result?.signInMethods!!.isEmpty()) {
-                                            userID = firebaseAuth.currentUser!!.uid
-                                            firebaseReference = FirebaseDatabase.getInstance().reference.child(strValues.USERS).child(userID)
+                            firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener { task ->
+                                    if (task.result?.signInMethods!!.isEmpty()) {
+                                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                                                userID = firebaseAuth.currentUser!!.uid
+                                                firebaseReference = FirebaseDatabase.getInstance().reference.child(strValues.USERS).child(userID)
 
-                                            var user = HashMap<String,Any>()
-                                            user["email"]=email
-                                            user["userID"]=userID
+                                                var user = HashMap<String, Any>()
+                                                user["email"] = email
+                                                user["userID"] = userID
 
-                                            firebaseReference.updateChildren(user).addOnCompleteListener() {
-                                                UserContainer.setEmail(email)
-                                                openFragment(R.id.frameSignUpPage, MainMenu())
+                                                firebaseReference.updateChildren(user).addOnCompleteListener() {
+                                                        UserContainer.setEmail(email)
+                                                        openFragment(R.id.frameSignUpPage, CompanyRegistration())
+                                                    }
                                             }
-                                        }
-                                        else {
-                                            viewModel.setSignUpNotificationText(strValues.USER_ALREADY_EXIST)
-                                            clearFields()
-                                        }
-                                    })
-                            }
-                        }
+                                    } //if email is already in use
+                                    else {
+                                        viewModel.setSignUpNotificationText(strValues.EMAIL_ALREADY_IN_USE)
+                                    }
+                                } //check if email is already in use
+                        } //password equals
                         else {
                             viewModel.setSignUpNotificationText(strValues.ERROR_PASSWORD_MATCH)
+                            clearFields()
                         }
                     }
                 }
             }
         }
-        viewModel.notification.observe(this.requireActivity(), androidx.lifecycle.Observer { binding.invalidateAll() })
+        viewModel.notification.observe(
+            this.requireActivity(),
+            androidx.lifecycle.Observer { binding.invalidateAll() })
     }
 
     private fun clearFields() {

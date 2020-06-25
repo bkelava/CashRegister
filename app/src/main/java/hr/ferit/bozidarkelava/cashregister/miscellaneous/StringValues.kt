@@ -1,14 +1,12 @@
 package hr.ferit.bozidarkelava.cashregister.miscellaneous
 
-import android.text.TextUtils
-
 class StringValues {
 
     val ERROR_EMAIL_PASSWORD: String = "Please enter a valid e-mail or password!"
 
-    val ERROR_PASSWORD_MATCH: String = "Password fields are not matching!"
+    val ERROR_PASSWORD_MATCH: String = "Password fields are not matching! Try again!"
 
-    val PROCESSING: String = "PROCESSING...";
+    val PROCESSING: String = "PROCESSING..."
 
     val USERS: String = "users"
 
@@ -23,5 +21,9 @@ class StringValues {
     val FIELD_ERROR: String ="Some of the required fields are empty!"
 
     val PASSWROD_ERROR: String = "Password is incorrect!"
+
+    val UNKNOWN_ERROR: String = "UNKNOWN ERROR!"
+
+    val EMAIL_ALREADY_IN_USE = "E-mail is already in use!"
 
 }
