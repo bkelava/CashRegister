@@ -22,4 +22,7 @@ interface ProductDao {
 
     @Query("SELECT * FROM product")
     fun selectAll(): List<Product>
+
+    @Query("SELECT * FROM product WHERE name LIKE '%' || :string || '%'")
+    fun filter(string: String): List<Product>
 }

@@ -11,7 +11,7 @@ import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
 
 class ViewStockRecyclerAdapter (products: MutableList<Product>, clicks:productButtonsClicks, context: Context): RecyclerView.Adapter<ViewStockViewHolder>() {
 
-    private val products: MutableList<Product> = mutableListOf()
+    private var products: MutableList<Product> = mutableListOf()
     private val  clicks: productButtonsClicks
     private val context: Context
 
@@ -42,4 +42,9 @@ class ViewStockRecyclerAdapter (products: MutableList<Product>, clicks:productBu
         this.products.addAll(product)
         this.notifyDataSetChanged()
     }
+
+    /*fun filter(filteredList: ArrayList<Product>) {
+        this.products = filteredList as MutableList<Product>
+        this.notifyDataSetChanged()
+    }*/
 }

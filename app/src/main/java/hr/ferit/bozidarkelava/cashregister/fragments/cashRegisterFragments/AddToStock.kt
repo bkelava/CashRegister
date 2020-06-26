@@ -22,12 +22,12 @@ import hr.ferit.bozidarkelava.cashregister.viewModels.StockViewModel
 import java.lang.Double.parseDouble
 import java.lang.Integer.parseInt
 
-class AddToStock : Fragment(), Manager, MVVM {
+open class AddToStock : Fragment(), Manager, MVVM {
 
-    private val productDao = CashRegisterDatabase.getInstance().productDao()
+    val productDao = CashRegisterDatabase.getInstance().productDao()
 
-    private lateinit var binding: FragmentStockBinding
-    private lateinit var viewModel: StockViewModel
+    lateinit var binding: FragmentStockBinding
+    lateinit var viewModel: StockViewModel
 
     private val items: Array<CharSequence> = arrayOf("Product", "Service")
 
@@ -90,22 +90,29 @@ class AddToStock : Fragment(), Manager, MVVM {
         }
     }
 
-    private fun saveProduct() {
+    open fun saveProduct() {
         val type: String = ItemContainer.getProductType()
         val name = binding.etProductOrServiceName.text.toString()
         val unit = binding.etProductOrServiceUnitMeasure.text.toString()
         val quantity: Int = parseInt(binding.etProductQuantity.text.toString())
         val price: Double = parseDouble(binding.etPrice.text.toString())
+        if (binding.etProductOrServiceName.text.toString() == "" ||
+            binding.etProductOrServiceUnitMeasure.text.toString() == "" ||
+            binding.etProductQuantity.text.toString() == "" ||
+            binding.etPrice.text.toString() == "" ) {
+            viewModel.notification.value = "FILL THE REQUIRED FIELDS!"
+        }
+        else {
+            val id: Int = productDao.seletMaxId() + 1
 
-        val id: Int = productDao.seletMaxId() + 1
+            val product: Product = Product(id, type, name, unit, quantity, price)
 
-        val product: Product = Product(id, type, name, unit, quantity, price)
-
-        productDao.insert(product)
-        resetFields()
+            productDao.insert(product)
+            resetFields()
+        }
     }
 
-    private fun resetFields() {
+    fun resetFields() {
         binding.etProductOrServiceName.setText("")
         binding.etProductOrServiceUnitMeasure.setText("")
         binding.etProductQuantity.setText("")

@@ -15,16 +15,20 @@ import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentViewStockBinding
+import hr.ferit.bozidarkelava.cashregister.interfaces.FragmentCommunicator
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
 import hr.ferit.bozidarkelava.cashregister.recyclerViews.ViewStockRecyclerAdapter
+import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
 
 class ViewStock : Fragment(), Manager, MVVM {
 
     private val database = CashRegisterDatabase.getInstance().productDao()
 
     private lateinit var binding: FragmentViewStockBinding
+
+    private lateinit var communicator: FragmentCommunicator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_view_stock, container, false)
@@ -52,6 +56,7 @@ class ViewStock : Fragment(), Manager, MVVM {
 
     override fun setUpUI() {
         binding = DataBindingUtil.setContentView(this.requireActivity(), R.layout.fragment_view_stock)
+        communicator = activity as FragmentCommunicator
     }
 
     override fun setUpBinding() {
@@ -59,33 +64,53 @@ class ViewStock : Fragment(), Manager, MVVM {
             openFragment(R.id.frameViewStock, MainMenu())
         }
 
-        val mClicks = object: productButtonsClicks {
-            override fun delete(position: Int) {
-                var product = database.selectId(position)
-                database.delete(product)
-                (binding.rvViewStockRecyclerView.adapter as ViewStockRecyclerAdapter).refresh(database.selectAll() as MutableList<Product>) //refresh
-            }
-
-            override fun update(position: Int) {
-                //tbc
-            }
-        }
+        val mClicks = createClicks()
 
         binding.etSearchBar.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                //tbc
+                filter(s.toString())
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //tbc
+                //empty
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //tbc//tbc//tbc//tbc//tbc//tbc
+                //empty
             }
         })
 
         binding.rvViewStockRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(database.selectAll() as MutableList<Product>,mClicks, this!!.context!!)
+    }
+
+    private fun filter(string: String) {
+        binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(database.filter(string) as MutableList<Product>, createClicks(), this!!.context!!)
+        (binding.rvViewStockRecyclerView.adapter as ViewStockRecyclerAdapter).refresh(database.filter(string) as MutableList<Product>)
+    }
+
+    private fun createClicks(): productButtonsClicks {
+        val mClicks = object : productButtonsClicks {
+            override fun delete(position: Int) {
+                var product = database.selectId(position)
+                database.delete(product)
+                (binding.rvViewStockRecyclerView.adapter as ViewStockRecyclerAdapter).refresh(
+                    database.selectAll() as MutableList<Product>) //refresh
+            }
+
+            override fun update(position: Int) {
+                setItem(position)
+                communicator.passData(position.toString())
+            }
+        }
+        return mClicks
+    }
+
+    private fun setItem(position: Int) {
+        ItemContainer.setProductType(database.selectId(position).type)
+        ItemContainer.setName(database.selectId(position).productName)
+        ItemContainer.setUnit(database.selectId(position).unitMeasure)
+        ItemContainer.setQuantity(database.selectId(position).quantity.toString())
+        ItemContainer.setPrice(database.selectId(position).price.toString())
     }
 }
