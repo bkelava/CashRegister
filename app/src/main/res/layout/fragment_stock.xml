@@ -164,6 +164,7 @@
 
 
             <EditText
+                android:inputType="numberSigned"
                 android:id="@+id/etProductQuantity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

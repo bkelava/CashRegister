@@ -8,7 +8,7 @@ class UpdateStock : AddToStock() {
 
     override fun saveProduct() {
         if (binding.etProductOrServiceName.text.toString() != "") {
-            ItemContainer.setProductType(binding.etProductOrServiceName.text.toString())
+            ItemContainer.setName(binding.etProductOrServiceName.text.toString())
         }
         if (binding.etProductOrServiceUnitMeasure.text.toString() != "") {
             ItemContainer.setUnit(binding.etProductOrServiceUnitMeasure.text.toString())

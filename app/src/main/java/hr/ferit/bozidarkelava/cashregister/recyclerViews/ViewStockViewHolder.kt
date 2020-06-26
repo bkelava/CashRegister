@@ -9,11 +9,11 @@ import kotlinx.android.synthetic.main.item.view.*
 class ViewStockViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     fun populateOnViewHolder(product: Product, click: productButtonsClicks) {
-        itemView.tvType.text = product.type
-        itemView.tvName.text = product.productName
-        itemView.tvUnit.text = product.unitMeasure
-        itemView.tvQuantity.text=product.quantity.toString()
-        itemView.tvPrice.text=product.price.toString()
+        itemView.tvType.text = "Type: " + product.type
+        itemView.tvName.text = "Name: " + product.productName
+        itemView.tvUnit.text = "Unit: " + product.unitMeasure
+        itemView.tvQuantity.text= "Quantity: " + product.quantity.toString()
+        itemView.tvPrice.text= "Price: " + product.price.toString()
 
         itemView.btnDelete.setOnClickListener() {
             click.delete(product.id)

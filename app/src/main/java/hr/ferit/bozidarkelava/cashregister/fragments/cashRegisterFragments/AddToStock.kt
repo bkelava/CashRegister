@@ -71,13 +71,14 @@ open class AddToStock : Fragment(), Manager, MVVM {
     override fun setUpBinding() {
         binding.apply {
             binding.product= viewModel
-
+            viewModel.notification.value="Press choose!"
             binding.btnBack.setOnClickListener() {
                 openFragment(R.id.frameStock, MainMenu())
             }
 
             binding.btnChoose.setOnClickListener() {
                 createDialog()
+                viewModel.notification.value="Fill the rest fields!"
             }
 
             binding.btnReset.setOnClickListener() {
@@ -91,11 +92,6 @@ open class AddToStock : Fragment(), Manager, MVVM {
     }
 
     open fun saveProduct() {
-        val type: String = ItemContainer.getProductType()
-        val name = binding.etProductOrServiceName.text.toString()
-        val unit = binding.etProductOrServiceUnitMeasure.text.toString()
-        val quantity: Int = parseInt(binding.etProductQuantity.text.toString())
-        val price: Double = parseDouble(binding.etPrice.text.toString())
         if (binding.etProductOrServiceName.text.toString() == "" ||
             binding.etProductOrServiceUnitMeasure.text.toString() == "" ||
             binding.etProductQuantity.text.toString() == "" ||
@@ -103,16 +99,21 @@ open class AddToStock : Fragment(), Manager, MVVM {
             viewModel.notification.value = "FILL THE REQUIRED FIELDS!"
         }
         else {
+            val type: String = ItemContainer.getProductType()
+            val name = binding.etProductOrServiceName.text.toString()
+            val unit = binding.etProductOrServiceUnitMeasure.text.toString()
+            val quantity: Int = parseInt(binding.etProductQuantity.text.toString())
+            val price: Double = parseDouble(binding.etPrice.text.toString())
+
             val id: Int = productDao.seletMaxId() + 1
 
             val product: Product = Product(id, type, name, unit, quantity, price)
-
             productDao.insert(product)
             resetFields()
         }
     }
 
-    fun resetFields() {
+    private fun resetFields() {
         binding.etProductOrServiceName.setText("")
         binding.etProductOrServiceUnitMeasure.setText("")
         binding.etProductQuantity.setText("")
@@ -157,6 +158,5 @@ open class AddToStock : Fragment(), Manager, MVVM {
         val alertDialog: AlertDialog = alertDialogBuilder.create()
         alertDialog.setCanceledOnTouchOutside(false)
         alertDialog.show()
-        Log.d("CONTAINER VALUE", ItemContainer.getProductType())
     }
 }

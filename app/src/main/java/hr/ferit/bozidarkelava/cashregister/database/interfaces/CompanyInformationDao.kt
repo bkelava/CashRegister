@@ -1,6 +1,7 @@
-package hr.ferit.bozidarkelava.cashregister.database.tables
+package hr.ferit.bozidarkelava.cashregister.database.interfaces
 
 import androidx.room.*
+import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformation
 
 @Dao
 interface CompanyInformationDao {
