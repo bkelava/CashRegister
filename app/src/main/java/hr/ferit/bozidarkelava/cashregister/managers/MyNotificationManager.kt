@@ -1,4 +1,4 @@
-package hr.ferit.bozidarkelava.cashregister.miscellaneous
+package hr.ferit.bozidarkelava.cashregister.managers
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -9,9 +9,11 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.activity.CashRegister
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.CHANNEL
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.getChannelId
 import java.io.File
 
-class NotificationManager() {
+class MyNotificationManager() {
 
     val NOTIFICATION_TITLE = "QR SAVED!"
 
@@ -35,7 +37,11 @@ class NotificationManager() {
             0
         )
 
-        val notification = NotificationCompat.Builder(CashRegister.ApplicationContext, getChannelId(CHANNEL))
+        val notification = NotificationCompat.Builder(CashRegister.ApplicationContext,
+            getChannelId(
+                CHANNEL
+            )
+        )
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(NOTIFICATION_TITLE)
             .setContentText(notificationText)

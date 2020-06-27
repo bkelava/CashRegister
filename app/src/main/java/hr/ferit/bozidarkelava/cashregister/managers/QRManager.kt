@@ -1,4 +1,4 @@
-package hr.ferit.bozidarkelava.cashregister.miscellaneous
+package hr.ferit.bozidarkelava.cashregister.managers
 
 import android.graphics.Bitmap
 import com.google.zxing.BarcodeFormat

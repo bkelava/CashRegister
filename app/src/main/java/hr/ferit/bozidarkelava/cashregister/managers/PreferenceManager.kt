@@ -1,4 +1,4 @@
-package hr.ferit.bozidarkelava.cashregister.miscellaneous
+package hr.ferit.bozidarkelava.cashregister.managers
 
 import android.content.Context
 import hr.ferit.bozidarkelava.cashregister.activity.CashRegister
@@ -10,26 +10,30 @@ class PreferenceManager {
     }
 
     fun saveUserEmail(email: String) {
-        val sharedPreferences = CashRegister.ApplicationContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE)
+        val sharedPreferences = CashRegister.ApplicationContext.getSharedPreferences(
+            PREFS_FILE, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("email", email)
         editor.apply()
     }
 
     fun getUserEmail(): String? {
-        val sharedPreferences = CashRegister.ApplicationContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE)
+        val sharedPreferences = CashRegister.ApplicationContext.getSharedPreferences(
+            PREFS_FILE, Context.MODE_PRIVATE)
         return sharedPreferences.getString("email", "unknown")
     }
 
     fun saveUserId(userId: String) {
-        val sharedPreferences = CashRegister.ApplicationContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE)
+        val sharedPreferences = CashRegister.ApplicationContext.getSharedPreferences(
+            PREFS_FILE, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("userid", userId)
         editor.apply()
     }
 
     fun getUserId(): String? {
-        val sharedPreferences = CashRegister.ApplicationContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE)
+        val sharedPreferences = CashRegister.ApplicationContext.getSharedPreferences(
+            PREFS_FILE, Context.MODE_PRIVATE)
         return sharedPreferences.getString("userid", "unknown")
     }
 }

@@ -1,7 +1,6 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.userRegisterFragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,20 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.auth.User
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentLoginPageBinding
-import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
+import hr.ferit.bozidarkelava.cashregister.managers.PreferenceManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.*
 import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.LogInViewModel
-import kotlin.system.exitProcess
 
-class LoginPage : Fragment(), Manager, MVVM {
+class LoginPage : Fragment(), MVVM {
+
+    private lateinit var manager: Manager
 
     private var companyInformationDao = CashRegisterDatabase.getInstance().companyInformationDao()
 
@@ -61,6 +60,8 @@ class LoginPage : Fragment(), Manager, MVVM {
         viewModel.notification.observe(
             this.requireActivity(),
             androidx.lifecycle.Observer { binding.invalidateAll() })
+
+        manager = activity as Manager
     }
 
     override fun setUpBinding() {
@@ -68,7 +69,7 @@ class LoginPage : Fragment(), Manager, MVVM {
             binding.notification = viewModel
 
             binding.btnBack.setOnClickListener() {
-                openFragment(R.id.frameLoginPage, SignUpPage())
+                manager.openFragment(R.id.frameLoginPage, SignUpPage())
             }
 
             binding.btnSignIn.setOnClickListener() {
@@ -97,10 +98,11 @@ class LoginPage : Fragment(), Manager, MVVM {
                                             .addOnCompleteListener() { task ->
                                                 if (task.isSuccessful) {
                                                     UserContainer.setEmail(email)
-                                                    val preferenceManager = PreferenceManager()
+                                                    val preferenceManager =
+                                                        PreferenceManager()
                                                     preferenceManager.saveUserEmail(email)
                                                     preferenceManager.saveUserId(firebaseAuth.currentUser.toString())
-                                                    openFragment(R.id.frameLoginPage, MainMenu())
+                                                    manager.openFragment(R.id.frameLoginPage, MainMenu())
                                                 } else {
                                                     viewModel.setLogInNotificationText(strValues.PASSWROD_ERROR)
                                                 }
@@ -114,14 +116,6 @@ class LoginPage : Fragment(), Manager, MVVM {
             }
 
         }
-    }
-    override fun openFragment(layoutID: Int, fragment: Fragment) {
-
-        val context = activity as AppCompatActivity
-        context.supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-            .replace(layoutID, fragment)
-            .commit()
     }
 
     private fun clearFields() {

@@ -21,10 +21,11 @@ import hr.ferit.bozidarkelava.cashregister.viewModels.CompanyRegistrationViewMod
 import kotlin.system.exitProcess
 
 
-class CompanyRegistration : Fragment(), Manager, MVVM  {
+class CompanyRegistration : Fragment(), MVVM  {
 
     private var companyInformationDao = CashRegisterDatabase.getInstance().companyInformationDao()
-    private var stringValues = StringValues()
+
+    private lateinit var manager: Manager
 
     private lateinit var binding: FragmentCompanyRegistrationBinding
     private lateinit var viewModel: CompanyRegistrationViewModel
@@ -39,14 +40,6 @@ class CompanyRegistration : Fragment(), Manager, MVVM  {
         setUpFragment()
     }
 
-    override fun openFragment(layoutID: Int, fragment: Fragment) {
-        val context = activity as AppCompatActivity
-        context.supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-            .replace(layoutID, fragment)
-            .commit()
-    }
-
     override fun setUpFragment() {
         setUpUI()
         setUpBinding()
@@ -55,6 +48,8 @@ class CompanyRegistration : Fragment(), Manager, MVVM  {
     override fun setUpUI() {
         binding = DataBindingUtil.setContentView(this.requireActivity(), R.layout.fragment_company_registration)
         viewModel = ViewModelProviders.of(this).get(CompanyRegistrationViewModel::class.java)
+
+        manager = activity as Manager
     }
 
     override fun setUpBinding() {
@@ -90,7 +85,7 @@ class CompanyRegistration : Fragment(), Manager, MVVM  {
             companyInformationDao.insert(companyInfo)
             clearFields()
             viewModel.setCompanyRegistrationNotificationText("PROCESSING")
-            openFragment(R.id.frameCompanyRegistration, MainMenu())
+            manager.openFragment(R.id.frameCompanyRegistration, MainMenu())
         }
     }
 

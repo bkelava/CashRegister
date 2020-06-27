@@ -23,17 +23,18 @@ import hr.ferit.bozidarkelava.cashregister.interfaces.FragmentCommunicator
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.NotificationManager
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.QRManager
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.checkPermission
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.requestPermission
+import hr.ferit.bozidarkelava.cashregister.managers.MyNotificationManager
+import hr.ferit.bozidarkelava.cashregister.managers.QRManager
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.*
 import hr.ferit.bozidarkelava.cashregister.recyclerViews.ViewStockRecyclerAdapter
 import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
-import kotlinx.android.synthetic.main.item.*
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
-class ViewStock : Fragment(), Manager, MVVM {
+class ViewStock : Fragment(), MVVM {
+
+    private lateinit var manager: Manager
 
     private val database = CashRegisterDatabase.getInstance().productDao()
 
@@ -54,15 +55,10 @@ class ViewStock : Fragment(), Manager, MVVM {
         setUpFragment()
     }
 
-    override fun openFragment(layoutID: Int, fragment: Fragment) {
-        val context = activity as AppCompatActivity
-        context.supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-            .replace(layoutID, fragment)
-            .commit()
-    }
-
     override fun setUpFragment() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannels()
+        }
         setUpUI()
         setUpBinding()
     }
@@ -70,11 +66,12 @@ class ViewStock : Fragment(), Manager, MVVM {
     override fun setUpUI() {
         binding = DataBindingUtil.setContentView(this.requireActivity(), R.layout.fragment_view_stock)
         communicator = activity as FragmentCommunicator
+        manager = activity as Manager
     }
 
     override fun setUpBinding() {
         binding.btnBack.setOnClickListener() {
-            openFragment(R.id.frameViewStock, MainMenu())
+            manager.openFragment(R.id.frameViewStock, MainMenu())
         }
 
         val mClicks = createClicks()
@@ -84,13 +81,8 @@ class ViewStock : Fragment(), Manager, MVVM {
                 filter(s.toString())
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //empty
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //empty
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
         binding.rvViewStockRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -134,17 +126,22 @@ class ViewStock : Fragment(), Manager, MVVM {
     }
 
     private fun exportQRtoFile(position: Int) {
-        var product = database.selectId(position)
+        var product: Product = database.selectId(position)
         val qrManager = QRManager()
         val bitmap: Bitmap = qrManager.createQR(product.id.toString())
-        val file: File = File(Environment.getExternalStorageState(), product.productName + ".jpg")
+
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = Environment.getExternalStorageDirectory().absolutePath + File.separator + (product.productName + ".jpg")
+        val file = File(path)
         file.createNewFile()
         val fileOutputStream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+        fileOutputStream.write(bytes.toByteArray())
         fileOutputStream.close()
 
-        val notificationManager = NotificationManager()
-        notificationManager.displayNotification(product.productName, file.path)
+        val notificationManager =
+            MyNotificationManager()
+        notificationManager.displayNotification(product.productName, file.absolutePath)
     }
 
     private fun setItem(position: Int) {

@@ -14,9 +14,11 @@ import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import kotlin.system.exitProcess
 
-class MainMenu : Fragment(), Manager, MVVM {
+class MainMenu : Fragment(), MVVM {
 
     private lateinit var binding: FragmentMainMenuBinding
+
+    private lateinit var manager: Manager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_main_menu, container, false)
@@ -28,14 +30,6 @@ class MainMenu : Fragment(), Manager, MVVM {
         setUpFragment()
     }
 
-    override fun openFragment(layoutID: Int, fragment: Fragment) {
-        val context = activity as AppCompatActivity
-        context.supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-            .replace(layoutID, fragment)
-            .commit()
-    }
-
     override fun setUpFragment() {
         setUpUI()
         setUpBinding()
@@ -43,11 +37,12 @@ class MainMenu : Fragment(), Manager, MVVM {
 
     override fun setUpUI() {
         binding = DataBindingUtil.setContentView(this.requireActivity(), R.layout.fragment_main_menu)
+        manager = activity as Manager
     }
 
     override fun setUpBinding() {
         binding.btnLogOut.setOnClickListener() {
-            openFragment(R.id.frameMainMenu, LoginPage())
+            manager.openFragment(R.id.frameMainMenu, LoginPage())
         }
 
         binding.btnExit.setOnClickListener() {
@@ -55,11 +50,11 @@ class MainMenu : Fragment(), Manager, MVVM {
         }
 
         binding.btnAddToStock.setOnClickListener() {
-            openFragment(R.id.frameMainMenu, AddToStock())
+            manager.openFragment(R.id.frameMainMenu, AddToStock())
         }
 
         binding.btnViewStock.setOnClickListener() {
-            openFragment(R.id.frameMainMenu, ViewStock())
+            manager.openFragment(R.id.frameMainMenu, ViewStock())
         }
     }
 }

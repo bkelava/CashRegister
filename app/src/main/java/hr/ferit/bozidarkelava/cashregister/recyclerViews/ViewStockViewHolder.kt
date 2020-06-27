@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.QRManager
+import hr.ferit.bozidarkelava.cashregister.managers.QRManager
 import kotlinx.android.synthetic.main.item.view.*
 
 class ViewStockViewHolder(view: View): RecyclerView.ViewHolder(view) {

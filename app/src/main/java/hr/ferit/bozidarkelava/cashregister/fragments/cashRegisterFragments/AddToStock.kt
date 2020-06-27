@@ -22,12 +22,14 @@ import hr.ferit.bozidarkelava.cashregister.viewModels.StockViewModel
 import java.lang.Double.parseDouble
 import java.lang.Integer.parseInt
 
-open class AddToStock : Fragment(), Manager, MVVM {
+open class AddToStock : Fragment(), MVVM {
 
     val productDao = CashRegisterDatabase.getInstance().productDao()
 
     lateinit var binding: FragmentStockBinding
     lateinit var viewModel: StockViewModel
+
+    lateinit var manager: Manager
 
     private val items: Array<CharSequence> = arrayOf("Product", "Service")
 
@@ -46,14 +48,6 @@ open class AddToStock : Fragment(), Manager, MVVM {
         setUpFragment()
     }
 
-    override fun openFragment(layoutID: Int, fragment: Fragment) {
-        val context = activity as AppCompatActivity
-        context.supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)
-            .replace(layoutID, fragment)
-            .commit()
-    }
-
     override fun setUpFragment() {
         setUpUI()
         setUpBinding()
@@ -66,6 +60,8 @@ open class AddToStock : Fragment(), Manager, MVVM {
 
         viewModel.productType.observe(this.requireActivity(), androidx.lifecycle.Observer { binding.invalidateAll() })
         viewModel.notification.observe(this.requireActivity(), androidx.lifecycle.Observer { binding.invalidateAll() })
+
+        manager = activity as Manager
     }
 
     override fun setUpBinding() {
@@ -73,7 +69,7 @@ open class AddToStock : Fragment(), Manager, MVVM {
             binding.product= viewModel
             viewModel.notification.value="Press choose!"
             binding.btnBack.setOnClickListener() {
-                openFragment(R.id.frameStock, MainMenu())
+                manager.openFragment(R.id.frameStock, MainMenu())
             }
 
             binding.btnChoose.setOnClickListener() {

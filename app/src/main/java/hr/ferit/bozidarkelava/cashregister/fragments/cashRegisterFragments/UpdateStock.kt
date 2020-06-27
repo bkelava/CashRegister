@@ -30,7 +30,7 @@ class UpdateStock : AddToStock() {
         val product: Product = Product(id, type, name, unit, quantity, price)
 
         productDao.update(product)
-        openFragment(R.id.frameStock, ViewStock())
+        manager.openFragment(R.id.frameStock, ViewStock())
 
     }
 
@@ -40,7 +40,7 @@ class UpdateStock : AddToStock() {
             this.saveProduct()
         }
         binding.btnBack.setOnClickListener() {
-            openFragment(R.id.frameStock, ViewStock())
+            manager.openFragment(R.id.frameStock, ViewStock())
         }
     }
 }
