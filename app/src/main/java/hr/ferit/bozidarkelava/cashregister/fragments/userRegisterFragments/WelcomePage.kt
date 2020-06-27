@@ -2,6 +2,7 @@ package hr.ferit.bozidarkelava.cashregister.fragments.userRegisterFragments
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.R
+import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.PreferenceManager
 
 class WelcomePage : Fragment(),
     Manager {
@@ -23,14 +26,24 @@ class WelcomePage : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val userEmail = PreferenceManager().getUserEmail()
+        val userId = PreferenceManager().getUserId()
+
         val handler = Handler()
         handler.postDelayed({
             kotlin.run {
-                openFragment(R.id.frameWelcomePage,
-                    LoginPage()
-                )
+
+                if (userEmail == "unknown" && userId == "unknown") {
+                    openFragment(R.id.frameWelcomePage, SignUpPage())
+                }
+                else {
+                    openFragment(R.id.frameWelcomePage, MainMenu())
+                }
             }
         }, SPLASH_TIME_OUT)
+
+        Log.d("EMAIL", userEmail)
+        Log.d("ID", userId)
     }
 
     override fun openFragment(layoutID: Int, fragment: Fragment) {

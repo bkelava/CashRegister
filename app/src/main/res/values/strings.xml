@@ -3,16 +3,20 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="TITLE">CASH REGISTER</string>
 
-    <string name="LOGIN">LOG IN</string>
+    <string name="LOGIN">SIGN IN</string>
     <string name="EMAIL">E-MAIL</string>
     <string name="PASSWORD">PASSWORD</string>
     <string name="REPEATPASSWORD">REPEAT PASSWORD</string>
     <string name="info">Don\'t have account\?</string>
     <string name="signup"><u>Sign up\.</u></string>
     <string name="EXIT">EXIT</string>
-    <string name="CreateBtn">CREATE</string>
+    <string name="CreateBtn">CREATE USER</string>
 
-    <string name="Create">Create user account\.</string>
+    <string name="signIn">Sign in</string>
+
+    <string name="already">Already have account\?</string>
+
+    <string name="Create">Create user\.</string>
 
     <string name="BACK">Back</string>
 

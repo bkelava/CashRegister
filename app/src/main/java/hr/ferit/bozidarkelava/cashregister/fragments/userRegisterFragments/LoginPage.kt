@@ -19,10 +19,7 @@ import hr.ferit.bozidarkelava.cashregister.databinding.FragmentLoginPageBinding
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.StringValues
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.hasPermission
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.isEmailValid
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.requestPermission
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.*
 import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.LogInViewModel
 import kotlin.system.exitProcess
@@ -70,15 +67,11 @@ class LoginPage : Fragment(), Manager, MVVM {
         binding.apply {
             binding.notification = viewModel
 
-            binding.btnSignUp.setOnClickListener {
+            binding.btnBack.setOnClickListener() {
                 openFragment(R.id.frameLoginPage, SignUpPage())
             }
 
-            binding.btnExit.setOnClickListener() {
-                exitProcess(0);
-            }
-
-            binding.btnLogIn.setOnClickListener() {
+            binding.btnSignIn.setOnClickListener() {
                 login()
             }
         }
@@ -104,20 +97,10 @@ class LoginPage : Fragment(), Manager, MVVM {
                                             .addOnCompleteListener() { task ->
                                                 if (task.isSuccessful) {
                                                     UserContainer.setEmail(email)
-                                                    if (companyInformationDao.checkUserByEmail(
-                                                            UserContainer.getEmail()
-                                                        ).isNotEmpty()
-                                                    ) {
-                                                        openFragment(
-                                                            R.id.frameLoginPage,
-                                                            MainMenu()
-                                                        )
-                                                    } else {
-                                                        openFragment(
-                                                            R.id.frameLoginPage,
-                                                            CompanyRegistration()
-                                                        )
-                                                    }
+                                                    val preferenceManager = PreferenceManager()
+                                                    preferenceManager.saveUserEmail(email)
+                                                    preferenceManager.saveUserId(firebaseAuth.currentUser.toString())
+                                                    openFragment(R.id.frameLoginPage, MainMenu())
                                                 } else {
                                                     viewModel.setLogInNotificationText(strValues.PASSWROD_ERROR)
                                                 }
@@ -132,8 +115,8 @@ class LoginPage : Fragment(), Manager, MVVM {
 
         }
     }
-
     override fun openFragment(layoutID: Int, fragment: Fragment) {
+
         val context = activity as AppCompatActivity
         context.supportFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.enter_animation, R.anim.exit_animation)

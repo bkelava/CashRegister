@@ -4,7 +4,7 @@ class StringValues {
 
     val ERROR_EMAIL_PASSWORD: String = "Please enter a valid e-mail or password!"
 
-    val ERROR_PASSWORD_MATCH: String = "Password fields are not matching! Try again!"
+    val ERROR_PASSWORD_MATCH: String = "Password fields are not matching!"
 
     val PROCESSING: String = "PROCESSING..."
 

@@ -21,6 +21,7 @@ import hr.ferit.bozidarkelava.cashregister.viewModels.SignUpViewModel
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentSignUpPageBinding
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.PreferenceManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.isEmailValid
 import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
 import kotlin.collections.HashMap
@@ -65,7 +66,7 @@ class SignUpPage : Fragment(), Manager, MVVM {
     override fun setUpBinding() {
         binding.apply {
             binding.notification = viewModel
-            binding.btnBack.setOnClickListener() {
+            binding.btnSignIn.setOnClickListener() {
                 openFragment(R.id.frameSignUpPage, LoginPage())
             }
 
@@ -93,9 +94,12 @@ class SignUpPage : Fragment(), Manager, MVVM {
                                                 user["userID"] = userID
 
                                                 firebaseReference.updateChildren(user).addOnCompleteListener() {
-                                                        UserContainer.setEmail(email)
-                                                        openFragment(R.id.frameSignUpPage, CompanyRegistration())
-                                                    }
+                                                    UserContainer.setEmail(email)
+                                                    val preferenceManager = PreferenceManager()
+                                                    preferenceManager.saveUserEmail(email)
+                                                    preferenceManager.saveUserId(firebaseAuth.currentUser.toString())
+                                                    openFragment(R.id.frameSignUpPage, CompanyRegistration())
+                                                }
                                             }
                                     } //if email is already in use
                                     else {
