@@ -31,7 +31,7 @@
     <string name="COMPANY_INFO">COMPANY INFO</string>
     <string name="view_stock">VIEW STOCK</string>
 
-    <string name="generateQR">GENERATE QR</string>
+    <string name="exportQR">EXPORT ITEM QR</string>
 
     <string name="ABOUT_APPLICATION">ABOUT CASH REGISTER</string>
 
@@ -61,6 +61,7 @@
 
     <string name="delete">DELETE</string>
     <string name="update">UPDATE</string>
+    <string name="export">EXPORT</string>
 
     <string name="VIEW_STOCK_ITEMS">VIEW STOCK</string>
 </resources>

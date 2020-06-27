@@ -15,7 +15,7 @@ abstract class CashRegisterDatabase: RoomDatabase() {
     abstract fun productDao(): ProductDao
 
     companion object {
-        private const val  NAME ="InspiringPersonsDatabase"
+        private const val  NAME ="cash_register_database"
         private var INSTANCE: CashRegisterDatabase? = null
         fun getInstance(): CashRegisterDatabase {
             if (INSTANCE == null) {

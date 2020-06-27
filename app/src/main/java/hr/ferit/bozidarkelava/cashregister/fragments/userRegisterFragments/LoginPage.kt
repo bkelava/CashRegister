@@ -20,7 +20,9 @@ import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.Compa
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.StringValues
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.hasPermission
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.isEmailValid
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.requestPermission
 import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.LogInViewModel
 import kotlin.system.exitProcess

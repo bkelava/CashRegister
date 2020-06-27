@@ -1,6 +1,10 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
+import android.Manifest
+import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -19,8 +23,15 @@ import hr.ferit.bozidarkelava.cashregister.interfaces.FragmentCommunicator
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.NotificationManager
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.QRManager
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.checkPermission
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.requestPermission
 import hr.ferit.bozidarkelava.cashregister.recyclerViews.ViewStockRecyclerAdapter
 import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
+import kotlinx.android.synthetic.main.item.*
+import java.io.File
+import java.io.FileOutputStream
 
 class ViewStock : Fragment(), Manager, MVVM {
 
@@ -29,6 +40,8 @@ class ViewStock : Fragment(), Manager, MVVM {
     private lateinit var binding: FragmentViewStockBinding
 
     private lateinit var communicator: FragmentCommunicator
+
+    private val FILE_SHARE_PERMISSION: Int = 102
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_view_stock, container, false)
@@ -102,8 +115,36 @@ class ViewStock : Fragment(), Manager, MVVM {
                 setItem(position)
                 communicator.passData(position.toString())
             }
+
+            override fun export(position: Int) {
+               if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        exportQRtoFile(position)
+                    }
+                    else {
+                        activity?.let { requestPermission(it, Manifest.permission.WRITE_EXTERNAL_STORAGE, FILE_SHARE_PERMISSION) }
+                    }
+                }
+                else {
+                    exportQRtoFile(position)
+                }
+            }
         }
         return mClicks
+    }
+
+    private fun exportQRtoFile(position: Int) {
+        var product = database.selectId(position)
+        val qrManager = QRManager()
+        val bitmap: Bitmap = qrManager.createQR(product.id.toString())
+        val file: File = File(Environment.getExternalStorageState(), product.productName + ".jpg")
+        file.createNewFile()
+        val fileOutputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+        fileOutputStream.close()
+
+        val notificationManager = NotificationManager()
+        notificationManager.displayNotification(product.productName, file.path)
     }
 
     private fun setItem(position: Int) {

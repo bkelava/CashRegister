@@ -39,5 +39,8 @@ class UpdateStock : AddToStock() {
         binding.btnSaveProductOrService.setOnClickListener() {
             this.saveProduct()
         }
+        binding.btnBack.setOnClickListener() {
+            openFragment(R.id.frameStock, ViewStock())
+        }
     }
 }

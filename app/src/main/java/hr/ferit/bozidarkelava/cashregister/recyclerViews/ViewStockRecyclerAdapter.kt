@@ -42,9 +42,4 @@ class ViewStockRecyclerAdapter (products: MutableList<Product>, clicks:productBu
         this.products.addAll(product)
         this.notifyDataSetChanged()
     }
-
-    /*fun filter(filteredList: ArrayList<Product>) {
-        this.products = filteredList as MutableList<Product>
-        this.notifyDataSetChanged()
-    }*/
 }

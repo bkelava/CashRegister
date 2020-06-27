@@ -78,7 +78,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
-                android:id="@+id/btnGenerateQR"
+                android:id="@+id/btnExportQR"
                 style="@style/mainMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 android:layout_marginEnd="35dp"
                 android:background="@color/mainMenuButtons"
                 android:padding="@dimen/mainMenuButtonPadding10dp"
-                android:text="@string/generateQR"
+                android:text="@string/exportQR"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +108,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnGenerateQR"
+                app:layout_constraintTop_toBottomOf="@+id/btnExportQR"
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
