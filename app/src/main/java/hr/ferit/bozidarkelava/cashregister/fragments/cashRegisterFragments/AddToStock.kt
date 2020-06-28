@@ -18,6 +18,7 @@ import hr.ferit.bozidarkelava.cashregister.databinding.FragmentStockBinding
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
+import hr.ferit.bozidarkelava.cashregister.singleton.ItemDimensions
 import hr.ferit.bozidarkelava.cashregister.viewModels.StockViewModel
 import java.lang.Double.parseDouble
 import java.lang.Integer.parseInt
@@ -44,7 +45,6 @@ open class AddToStock : Fragment(), MVVM {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setUpFragment()
     }
 
@@ -118,7 +118,7 @@ open class AddToStock : Fragment(), MVVM {
         disableFields()
     }
 
-    private fun enableFields() {
+    open fun enableFields() {
         binding.etProductOrServiceName.isEnabled=true
         binding.etProductOrServiceUnitMeasure.isEnabled=true
         if (ItemContainer.getProductType() == "Product") {

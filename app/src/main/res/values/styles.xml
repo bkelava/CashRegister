@@ -65,6 +65,12 @@
         <item name="android:textSize">@dimen/exit</item>
     </style>
 
+    <style name="info3">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/RED</item>
+        <item name="android:textSize">@dimen/info</item>
+    </style>
+
     <style name="mainMenu">
         <item name="background">@color/mainMenuButtons</item>
         <item name="fontFamily">@font/aclonica</item>

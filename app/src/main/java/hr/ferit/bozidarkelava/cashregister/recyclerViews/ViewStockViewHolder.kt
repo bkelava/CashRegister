@@ -2,14 +2,21 @@ package hr.ferit.bozidarkelava.cashregister.recyclerViews
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
 import hr.ferit.bozidarkelava.cashregister.managers.QRManager
+import hr.ferit.bozidarkelava.cashregister.managers.SoundPoolManager
 import kotlinx.android.synthetic.main.item.view.*
 
 class ViewStockViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
+    private val soundPoolManager = SoundPoolManager()
+
     fun populateOnViewHolder(product: Product, click: productButtonsClicks) {
+
+        soundPoolManager.init()
+
         itemView.tvType.text = "Type: " + product.type
         itemView.tvName.text = "Name: " + product.productName
         itemView.tvUnit.text = "Unit: " + product.unitMeasure
@@ -27,8 +34,9 @@ class ViewStockViewHolder(view: View): RecyclerView.ViewHolder(view) {
             click.update(product.id)
         }
 
-        itemView.btnExportQR.setOnClickListener() {
+        itemView.btnExport.setOnClickListener() {
             click.export(product.id)
+            soundPoolManager.playSound(R.raw.juntos)
         }
     }
 }

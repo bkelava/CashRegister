@@ -4,14 +4,20 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <color name="LIGHT_YELLOW">#E6F36D</color>
+
     <color name="YELLOW">#FFEB3B</color>
     <color name="BLACK">#000000</color>
 
     <color name="RED">#F10606</color>
 
+    <color name="LIGHT_BLUE">#5C74FA</color>
+
     <color name="TRANSPARENT">#00000000</color>
 
     <color name="WHITE">#FFFFFF</color>
+
+    <color name="LIGHT_GREEN">#6DFF73</color>
 
     <color name="mainMenuButtons">#097054</color>
 </resources>

@@ -1,10 +1,26 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
+import android.os.Bundle
+import android.view.View
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
 
 class UpdateStock : AddToStock() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        enableFields()
+        setUpFields()
+    }
+
+    private fun setUpFields() {
+        viewModel.setProductType(ItemContainer.getProductType())
+        binding.etProductOrServiceName.setText(ItemContainer.getName())
+        binding.etProductQuantity.setText(ItemContainer.getQuantity())
+        binding.etProductOrServiceUnitMeasure.setText(ItemContainer.getUnit())
+        binding.etPrice.setText(ItemContainer.getPrice())
+    }
 
     override fun saveProduct() {
         if (binding.etProductOrServiceName.text.toString() != "") {

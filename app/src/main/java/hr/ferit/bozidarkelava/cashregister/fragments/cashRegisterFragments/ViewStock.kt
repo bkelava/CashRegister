@@ -1,12 +1,14 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
 import android.Manifest
-import android.graphics.Bitmap
+import android.graphics.*
+import android.graphics.pdf.PdfDocument
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +18,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.ferit.bozidarkelava.cashregister.R
+import hr.ferit.bozidarkelava.cashregister.activity.CashRegisterApp
 import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
+import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformation
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentViewStockBinding
 import hr.ferit.bozidarkelava.cashregister.interfaces.FragmentCommunicator
@@ -25,6 +29,7 @@ import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
 import hr.ferit.bozidarkelava.cashregister.managers.MyNotificationManager
 import hr.ferit.bozidarkelava.cashregister.managers.QRManager
+import hr.ferit.bozidarkelava.cashregister.managers.SpanningLinearLayoutManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.*
 import hr.ferit.bozidarkelava.cashregister.recyclerViews.ViewStockRecyclerAdapter
 import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
@@ -36,7 +41,8 @@ class ViewStock : Fragment(), MVVM {
 
     private lateinit var manager: Manager
 
-    private val database = CashRegisterDatabase.getInstance().productDao()
+    private val productDatabase = CashRegisterDatabase.getInstance().productDao()
+    private val companyDatabase = CashRegisterDatabase.getInstance().companyInformationDao()
 
     private lateinit var binding: FragmentViewStockBinding
 
@@ -86,21 +92,21 @@ class ViewStock : Fragment(), MVVM {
         })
 
         binding.rvViewStockRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(database.selectAll() as MutableList<Product>,mClicks, this!!.context!!)
+        binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(productDatabase.selectAll() as MutableList<Product>,mClicks, this!!.context!!)
     }
 
     private fun filter(string: String) {
-        binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(database.filter(string) as MutableList<Product>, createClicks(), this!!.context!!)
-        (binding.rvViewStockRecyclerView.adapter as ViewStockRecyclerAdapter).refresh(database.filter(string) as MutableList<Product>)
+        binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(productDatabase.filter(string) as MutableList<Product>, createClicks(), this!!.context!!)
+        (binding.rvViewStockRecyclerView.adapter as ViewStockRecyclerAdapter).refresh(productDatabase.filter(string) as MutableList<Product>)
     }
 
     private fun createClicks(): productButtonsClicks {
         val mClicks = object : productButtonsClicks {
             override fun delete(position: Int) {
-                var product = database.selectId(position)
-                database.delete(product)
+                var product = productDatabase.selectId(position)
+                productDatabase.delete(product)
                 (binding.rvViewStockRecyclerView.adapter as ViewStockRecyclerAdapter).refresh(
-                    database.selectAll() as MutableList<Product>) //refresh
+                    productDatabase.selectAll() as MutableList<Product>) //refresh
             }
 
             override fun update(position: Int) {
@@ -111,44 +117,67 @@ class ViewStock : Fragment(), MVVM {
             override fun export(position: Int) {
                if (Build.VERSION.SDK_INT >= 23) {
                     if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        exportQRtoFile(position)
+                        exportItemToFile(position)
                     }
                     else {
                         activity?.let { requestPermission(it, Manifest.permission.WRITE_EXTERNAL_STORAGE, FILE_SHARE_PERMISSION) }
                     }
                 }
                 else {
-                    exportQRtoFile(position)
+                   exportItemToFile(position)
                 }
             }
         }
         return mClicks
     }
 
-    private fun exportQRtoFile(position: Int) {
-        var product: Product = database.selectId(position)
+    private fun exportItemToFile(position: Int) {
+
+        val companyInformation: List<CompanyInformation> = companyDatabase.selectAll()
+
+        Log.d("STUPID",companyInformation.first().companyAddress)
+        val product: Product= productDatabase.selectId(position)
         val qrManager = QRManager()
-        val bitmap: Bitmap = qrManager.createQR(product.id.toString())
 
-        val bytes = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = Environment.getExternalStorageDirectory().absolutePath + File.separator + (product.productName + ".jpg")
+        var pdfDocument: PdfDocument = PdfDocument()
+        var paint: Paint = Paint()
+        var pageInfo: PdfDocument.PageInfo = PdfDocument.PageInfo.Builder(1572, 1572, 1).create()
+        var page: PdfDocument.Page = pdfDocument.startPage(pageInfo)
+
+        var canvas: Canvas = page.canvas
+
+        paint.color = Color.BLACK
+        paint.textSize = 30F
+        paint.textAlign = Paint.Align.CENTER
+        canvas.drawText(companyInformation[0].companyName, 786F, 100F, paint)
+        canvas.drawText(companyInformation[0].companyAddress, 786F, 150F, paint)
+        canvas.drawText(companyInformation[0].companyCityAndPostal, 786F, 200F, paint)
+
+        paint.textSize = 20F
+
+        canvas.drawText("Product name: " + product.productName, 286F, 500F, paint)
+        canvas.drawText("Product price:" + product.price.toString(), 286F, 550F, paint)
+
+        canvas.drawBitmap(qrManager.createQR(product.id.toString()), 576F, 576F, paint)
+
+        pdfDocument.finishPage(page)
+
+        val path = Environment.getExternalStorageDirectory().absolutePath + File.separator + (product.productName + ".pdf")
         val file = File(path)
-        file.createNewFile()
-        val fileOutputStream = FileOutputStream(file)
-        fileOutputStream.write(bytes.toByteArray())
-        fileOutputStream.close()
 
-        val notificationManager =
-            MyNotificationManager()
-        notificationManager.displayNotification(product.productName, file.absolutePath)
+        pdfDocument.writeTo(FileOutputStream(file))
+
+        val notificationManager = MyNotificationManager()
+        notificationManager.displayNotification(CashRegisterApp.toString(), product.productName, file.absolutePath)
+
+        pdfDocument.close()
     }
 
     private fun setItem(position: Int) {
-        ItemContainer.setProductType(database.selectId(position).type)
-        ItemContainer.setName(database.selectId(position).productName)
-        ItemContainer.setUnit(database.selectId(position).unitMeasure)
-        ItemContainer.setQuantity(database.selectId(position).quantity.toString())
-        ItemContainer.setPrice(database.selectId(position).price.toString())
+        ItemContainer.setProductType(productDatabase.selectId(position).type)
+        ItemContainer.setName(productDatabase.selectId(position).productName)
+        ItemContainer.setUnit(productDatabase.selectId(position).unitMeasure)
+        ItemContainer.setQuantity(productDatabase.selectId(position).quantity.toString())
+        ItemContainer.setPrice(productDatabase.selectId(position).price.toString())
     }
 }

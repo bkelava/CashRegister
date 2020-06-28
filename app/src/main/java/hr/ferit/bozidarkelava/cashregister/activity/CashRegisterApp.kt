@@ -3,7 +3,7 @@ package hr.ferit.bozidarkelava.cashregister.activity
 import android.app.Application
 import android.content.Context
 
-class CashRegister: Application() {
+class CashRegisterApp: Application() {
 
     companion object {
         lateinit var ApplicationContext: Context

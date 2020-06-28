@@ -1,13 +1,16 @@
 package hr.ferit.bozidarkelava.cashregister.recyclerViews
 
 import android.content.Context
-import android.text.Layout
+import android.graphics.Bitmap
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
+import hr.ferit.bozidarkelava.cashregister.singleton.ItemDimensions
+import kotlinx.android.synthetic.main.item.view.*
 
 class ViewStockRecyclerAdapter (products: MutableList<Product>, clicks:productButtonsClicks, context: Context): RecyclerView.Adapter<ViewStockViewHolder>() {
 
@@ -35,6 +38,11 @@ class ViewStockRecyclerAdapter (products: MutableList<Product>, clicks:productBu
     override fun onBindViewHolder(holder: ViewStockViewHolder, position: Int) {
         val product = products[position]
         holder.populateOnViewHolder(product, clicks)
+
+       /* holder.itemView.post {
+            ItemDimensions.setCellWidth(holder.itemView.width.toDouble())
+            ItemDimensions.setCellHeight(holder.itemView.height.toDouble())
+        }*/
     }
 
     fun refresh(product: MutableList<Product>) {

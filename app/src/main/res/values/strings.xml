@@ -3,6 +3,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="TITLE">CASH REGISTER</string>
 
+    <string name="ADD">Add</string>
+    <string name="SCAN">Scan</string>
+
+    <string name="QRINFO">Item QR</string>
+
+    <string name="DELETE_ITEM">Delete</string>
+    <string name="UPDATE_ITEM">Update</string>
+    <string name="EXPORT_ITEM">Export</string>
+
     <string name="LOGIN">SIGN IN</string>
     <string name="EMAIL">E-MAIL</string>
     <string name="PASSWORD">PASSWORD</string>

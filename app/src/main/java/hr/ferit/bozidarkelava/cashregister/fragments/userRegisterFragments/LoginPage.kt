@@ -14,6 +14,7 @@ import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentLoginPageBinding
+import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.managers.PreferenceManager
@@ -102,7 +103,7 @@ class LoginPage : Fragment(), MVVM {
                                                         PreferenceManager()
                                                     preferenceManager.saveUserEmail(email)
                                                     preferenceManager.saveUserId(firebaseAuth.currentUser.toString())
-                                                    manager.openFragment(R.id.frameLoginPage, MainMenu())
+                                                    manager.openFragment(R.id.frameLoginPage, CompanyRegistration())
                                                 } else {
                                                     viewModel.setLogInNotificationText(strValues.PASSWROD_ERROR)
                                                 }

@@ -38,7 +38,7 @@ class WelcomePage : Fragment() {
         handler.postDelayed({
             kotlin.run {
 
-                if (userEmail == "unknown" && userId == "unknown") {
+                if (userEmail == "unknown" || userId == "unknown") {
                     manager.openFragment(R.id.frameWelcomePage, SignUpPage())
                 }
                 else {

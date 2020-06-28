@@ -2,7 +2,7 @@ package hr.ferit.bozidarkelava.cashregister.database
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import hr.ferit.bozidarkelava.cashregister.activity.CashRegister
+import hr.ferit.bozidarkelava.cashregister.activity.CashRegisterApp
 import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformation
 import hr.ferit.bozidarkelava.cashregister.database.interfaces.CompanyInformationDao
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
@@ -19,7 +19,7 @@ abstract class CashRegisterDatabase: RoomDatabase() {
         private var INSTANCE: CashRegisterDatabase? = null
         fun getInstance(): CashRegisterDatabase {
             if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(CashRegister.ApplicationContext, CashRegisterDatabase::class.java, NAME).allowMainThreadQueries().build()
+                INSTANCE = Room.databaseBuilder(CashRegisterApp.ApplicationContext, CashRegisterDatabase::class.java, NAME).allowMainThreadQueries().build()
             }
             return INSTANCE as CashRegisterDatabase
         }

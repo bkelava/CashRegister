@@ -24,7 +24,7 @@
                 android:fontFamily="@font/aclonica"
                 android:text="@string/VIEW_STOCK_ITEMS"
                 android:textColor="@color/YELLOW"
-                android:textSize="@dimen/viewstock"
+                android:textSize="@dimen/viewstock40"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +48,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <EditText
+                android:fontFamily="@font/aclonica"
                 android:id="@+id/etSearchBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -61,7 +62,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -81,7 +82,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnBack"
