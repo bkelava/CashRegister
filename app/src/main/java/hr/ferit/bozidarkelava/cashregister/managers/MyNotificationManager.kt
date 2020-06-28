@@ -24,7 +24,7 @@ class MyNotificationManager() {
                     CashRegisterApp.ApplicationContext,
                     "hr.ferit.android.fileprovider",
                     file!!
-                ) else Uri.fromFile(file), "image/*"
+                ) else Uri.fromFile(file), "application/pdf"
             ).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         val pendingIntent = PendingIntent.getActivity(
@@ -34,11 +34,7 @@ class MyNotificationManager() {
             0
         )
 
-        val notification = NotificationCompat.Builder(CashRegisterApp.ApplicationContext,
-            getChannelId(
-                CHANNEL
-            )
-        )
+        val notification = NotificationCompat.Builder(CashRegisterApp.ApplicationContext, getChannelId(CHANNEL))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(notificationTitle)
             .setContentText(notificationText)

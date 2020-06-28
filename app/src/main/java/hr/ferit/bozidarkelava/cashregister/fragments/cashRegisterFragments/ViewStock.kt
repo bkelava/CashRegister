@@ -147,16 +147,17 @@ class ViewStock : Fragment(), MVVM {
         var canvas: Canvas = page.canvas
 
         paint.color = Color.BLACK
-        paint.textSize = 30F
+        paint.textSize = 50F
         paint.textAlign = Paint.Align.CENTER
         canvas.drawText(companyInformation[0].companyName, 786F, 100F, paint)
         canvas.drawText(companyInformation[0].companyAddress, 786F, 150F, paint)
         canvas.drawText(companyInformation[0].companyCityAndPostal, 786F, 200F, paint)
 
-        paint.textSize = 20F
+        paint.textSize = 35F
+        paint.textAlign=Paint.Align.LEFT
 
         canvas.drawText("Product name: " + product.productName, 286F, 500F, paint)
-        canvas.drawText("Product price:" + product.price.toString(), 286F, 550F, paint)
+        canvas.drawText("Product price: " + product.price.toString(), 286F, 550F, paint)
 
         canvas.drawBitmap(qrManager.createQR(product.id.toString()), 576F, 576F, paint)
 
