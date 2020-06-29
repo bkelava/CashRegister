@@ -76,5 +76,15 @@
     <string name="update">UPDATE</string>
     <string name="export">EXPORT</string>
 
+    <string name="cancel">CANCEL</string>
+
+    <string name="proceed">PROCEED</string>
+
     <string name="VIEW_STOCK_ITEMS">VIEW STOCK</string>
+
+    <string name="productid">ID</string>
+    <string name="productname">Name</string>
+    <string name="productquantity">Qt</string>
+    <string name="productprice">PPO</string>
+    <string name="producttotalprice">Tota P</string>
 </resources>

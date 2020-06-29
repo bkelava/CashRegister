@@ -4,12 +4,17 @@
     <dimen name="unamePw">20dp</dimen>
     <dimen name="info">15dp</dimen>
 
+    <dimen name="productitemsize">15dp</dimen>
+
+    <dimen name="et">15dp</dimen>
+
     <dimen name="viewstock50">50dp</dimen>
     <dimen name="viewStock45">45dp</dimen>
     <dimen name="viewstock40">40dp</dimen>
 
     <dimen name="CompanyEtSize">15dp</dimen>
 
+    <dimen name="buttonInvoice">25dp</dimen>
     <dimen name="exit">30dp</dimen>
 
     <dimen name="mainMenu">25dp</dimen>

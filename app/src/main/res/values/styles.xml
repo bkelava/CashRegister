@@ -79,4 +79,10 @@
         <item name="buttonTint">@color/mainMenuButtons</item>
     </style>
 
+    <style name="recipe">
+        <item name="android:textColor">@color/LIGHT_YELLOW</item>
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textSize">@dimen/productitemsize</item>
+    </style>
+
 </resources>

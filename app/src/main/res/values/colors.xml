@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
+    <color name="orange">#F66C41</color>
     <color name="LIGHT_YELLOW">#E6F36D</color>
 
     <color name="YELLOW">#FFEB3B</color>
@@ -14,6 +15,8 @@
     <color name="LIGHT_BLUE">#5C74FA</color>
 
     <color name="TRANSPARENT">#00000000</color>
+
+    <color name="LIGHT_PURPLE">#E988FA</color>
 
     <color name="WHITE">#FFFFFF</color>
 
