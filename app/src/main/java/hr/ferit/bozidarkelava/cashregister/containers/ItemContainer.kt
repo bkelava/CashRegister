@@ -1,6 +1,8 @@
-package hr.ferit.bozidarkelava.cashregister.singleton
+package hr.ferit.bozidarkelava.cashregister.containers
 
 object ItemContainer {
+
+    private var productId: Int = 0
 
     private var productOrService = ""
 
@@ -8,6 +10,14 @@ object ItemContainer {
     private var unit=""
     private var quantity=""
     private var price=""
+
+    fun setProductId (id: Int) {
+        this.productId=id
+    }
+
+    fun getProductId(): Int {
+        return this.productId
+    }
 
     fun setProductType(text: String) {
         this.productOrService = text

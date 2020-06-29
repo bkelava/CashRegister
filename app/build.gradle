@@ -70,4 +70,5 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation 'com.github.mirrajabi:search-dialog:1.2.4'
 }

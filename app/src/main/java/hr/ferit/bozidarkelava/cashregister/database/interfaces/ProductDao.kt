@@ -26,4 +26,10 @@ interface ProductDao {
 
     @Query("SELECT * FROM product WHERE name LIKE '%' || :string || '%'")
     fun filter(string: String): List<Product>
+
+    @Query ("SELECT name FROM product")
+    fun selectAllItemNames(): List<String>
+
+    @Query("SELECT * FROM product WHERE name =  :name" )
+    fun selectProductByName(name: String): Product
 }

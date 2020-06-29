@@ -12,7 +12,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,14 +25,12 @@ import hr.ferit.bozidarkelava.cashregister.databinding.FragmentViewStockBinding
 import hr.ferit.bozidarkelava.cashregister.interfaces.FragmentCommunicator
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
-import hr.ferit.bozidarkelava.cashregister.interfaces.productButtonsClicks
+import hr.ferit.bozidarkelava.cashregister.interfaces.ProductButtonsClicks
 import hr.ferit.bozidarkelava.cashregister.managers.MyNotificationManager
 import hr.ferit.bozidarkelava.cashregister.managers.QRManager
-import hr.ferit.bozidarkelava.cashregister.managers.SpanningLinearLayoutManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.*
 import hr.ferit.bozidarkelava.cashregister.recyclerViews.ViewStockRecyclerAdapter
-import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
-import java.io.ByteArrayOutputStream
+import hr.ferit.bozidarkelava.cashregister.containers.ItemContainer
 import java.io.File
 import java.io.FileOutputStream
 
@@ -76,23 +73,23 @@ class ViewStock : Fragment(), MVVM {
     }
 
     override fun setUpBinding() {
-        binding.btnBack.setOnClickListener() {
-            manager.openFragment(R.id.frameViewStock, MainMenu())
-        }
-
-        val mClicks = createClicks()
-
-        binding.etSearchBar.addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                filter(s.toString())
+        binding.apply {
+            binding.btnBack.setOnClickListener() {
+                manager.openFragment(R.id.frameViewStock, MainMenu())
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+            val mClicks = createClicks()
 
-        binding.rvViewStockRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(productDatabase.selectAll() as MutableList<Product>,mClicks, this!!.context!!)
+            binding.etSearchBar.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    filter(s.toString())
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            })
+            binding.rvViewStockRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(productDatabase.selectAll() as MutableList<Product>,mClicks, CashRegisterApp.ApplicationContext)
+        }
     }
 
     private fun filter(string: String) {
@@ -100,8 +97,8 @@ class ViewStock : Fragment(), MVVM {
         (binding.rvViewStockRecyclerView.adapter as ViewStockRecyclerAdapter).refresh(productDatabase.filter(string) as MutableList<Product>)
     }
 
-    private fun createClicks(): productButtonsClicks {
-        val mClicks = object : productButtonsClicks {
+    private fun createClicks(): ProductButtonsClicks {
+        val mClicks = object : ProductButtonsClicks {
             override fun delete(position: Int) {
                 var product = productDatabase.selectId(position)
                 productDatabase.delete(product)

@@ -2,12 +2,10 @@ package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -17,8 +15,7 @@ import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentStockBinding
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
-import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
-import hr.ferit.bozidarkelava.cashregister.singleton.ItemDimensions
+import hr.ferit.bozidarkelava.cashregister.containers.ItemContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.StockViewModel
 import java.lang.Double.parseDouble
 import java.lang.Integer.parseInt

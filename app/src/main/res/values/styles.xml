@@ -79,10 +79,21 @@
         <item name="buttonTint">@color/mainMenuButtons</item>
     </style>
 
-    <style name="recipe">
+    <style name="receipt">
         <item name="android:textColor">@color/LIGHT_YELLOW</item>
         <item name="fontFamily">@font/aclonica</item>
         <item name="android:textSize">@dimen/productitemsize</item>
     </style>
 
+    <style name="receipt_item">
+        <item name="android:textColor">@color/BLACK</item>
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textSize">@dimen/receipt_item</item>
+    </style>
+
+    <style name="Line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="background">@color/BLACK</item>
+    </style>
 </resources>

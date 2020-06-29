@@ -1,6 +1,6 @@
 package hr.ferit.bozidarkelava.cashregister.interfaces
 
-interface productButtonsClicks {
+interface ProductButtonsClicks {
     fun delete(position: Int)
 
     fun update(position: Int)

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -15,11 +14,10 @@ import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentLoginPageBinding
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
-import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.managers.PreferenceManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.*
-import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
+import hr.ferit.bozidarkelava.cashregister.containers.UserContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.LogInViewModel
 
 class LoginPage : Fragment(), MVVM {

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +19,7 @@ import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.Compa
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.managers.PreferenceManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.isEmailValid
-import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
+import hr.ferit.bozidarkelava.cashregister.containers.UserContainer
 import kotlin.collections.HashMap
 
 class SignUpPage : Fragment(), MVVM {

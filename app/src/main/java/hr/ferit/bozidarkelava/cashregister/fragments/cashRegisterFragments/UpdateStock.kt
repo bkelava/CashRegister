@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
-import hr.ferit.bozidarkelava.cashregister.singleton.ItemContainer
+import hr.ferit.bozidarkelava.cashregister.containers.ItemContainer
 
 class UpdateStock : AddToStock() {
 

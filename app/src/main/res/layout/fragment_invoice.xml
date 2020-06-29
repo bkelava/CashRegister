@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/ic_baseline_add_24"
+                android:src="@drawable/ic_baseline_add_72"
                 app:cb_color="@color/LIGHT_GREEN"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -105,111 +105,80 @@
                 app:layout_constraintTop_toBottomOf="@+id/btnScan"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/ic_baseline_search_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvBackInfo"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <EditText
-                android:textColor="@color/WHITE"
-                android:background="@color/BLACK"
-                android:textSize="@dimen/et"
-                android:id="@+id/etSearchProduct"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/civSearch"
-                app:layout_constraintTop_toBottomOf="@+id/tvAddInfo"
-                app:layout_constraintVertical_bias="0.0" />" />
-
             <TextView
-                style="@style/recipe"
                 android:id="@+id/tvProductId"
+                style="@style/receipt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/productid"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/civSearch"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/tvProductName"
-                style="@style/recipe"
+                style="@style/receipt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/productname"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tvProductId"
-                app:layout_constraintTop_toBottomOf="@+id/civSearch"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/tvProductQuantity"
-                style="@style/recipe"
+                style="@style/receipt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="75dp"
-                android:layout_marginTop="15dp"
                 android:text="@string/productquantity"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tvProductName"
-                app:layout_constraintTop_toBottomOf="@+id/civSearch"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/tvProductPricePeerOne"
-                style="@style/recipe"
+                style="@style/receipt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="45dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/productprice"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tvProductQuantity"
-                app:layout_constraintTop_toBottomOf="@+id/civSearch"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/tvProductTotalPricePeerItem"
-                style="@style/recipe"
+                style="@style/receipt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:text="@string/producttotalprice"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tvProductPricePeerOne"
-                app:layout_constraintTop_toBottomOf="@+id/civSearch"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -232,7 +201,7 @@
 
             <TextView
                 android:id="@+id/tvTotalPrice"
-                style="@style/recipe"
+                style="@style/receipt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -249,28 +218,12 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
-                android:id="@+id/btnCancel"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginBottom="35dp"
-                android:text="@string/cancel"
-                android:textColor="@color/YELLOW"
-                android:textSize="@dimen/buttonInvoice"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <Button
                 android:id="@+id/btnCreateInvoice"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginEnd="35dp"
                 android:layout_marginBottom="35dp"
                 android:text="@string/proceed"
@@ -279,10 +232,8 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

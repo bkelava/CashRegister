@@ -1,11 +1,9 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -15,8 +13,7 @@ import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformation
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentCompanyRegistrationBinding
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
-import hr.ferit.bozidarkelava.cashregister.miscellaneous.StringValues
-import hr.ferit.bozidarkelava.cashregister.singleton.UserContainer
+import hr.ferit.bozidarkelava.cashregister.containers.UserContainer
 import hr.ferit.bozidarkelava.cashregister.viewModels.CompanyRegistrationViewModel
 import kotlin.system.exitProcess
 

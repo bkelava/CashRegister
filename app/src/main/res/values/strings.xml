@@ -87,4 +87,8 @@
     <string name="productquantity">Qt</string>
     <string name="productprice">PPO</string>
     <string name="producttotalprice">Tota P</string>
+
+    <string name="addmore">Add more</string>
+    <string name="eliminate">Eliminate</string>
+    <string name="removeitem">Remove</string>
 </resources>
