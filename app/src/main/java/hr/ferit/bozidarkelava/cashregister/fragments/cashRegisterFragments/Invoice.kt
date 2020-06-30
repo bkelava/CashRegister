@@ -1,17 +1,23 @@
 package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
+import android.Manifest
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.activity.CashRegisterApp
 import hr.ferit.bozidarkelava.cashregister.containers.CartItem
@@ -23,17 +29,23 @@ import hr.ferit.bozidarkelava.cashregister.managers.SearchDialogManager
 import hr.ferit.bozidarkelava.cashregister.containers.ItemContainer
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceButtonClicks
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.checkPermission
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.requestPermission
 import hr.ferit.bozidarkelava.cashregister.recyclerViews.InvoiceRecyclerAdapter
 import hr.ferit.bozidarkelava.cashregister.viewModels.InvoiceViewModel
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat
 import ir.mirrajabi.searchdialog.core.SearchResultListener
 import ir.mirrajabi.searchdialog.core.Searchable
+import kotlinx.android.synthetic.main.fragment_invoice.*
 import kotlinx.android.synthetic.main.invoice_item.view.*
 import java.util.ArrayList
 
 class Invoice : Fragment(), MVVM {
 
+    private val CAMERA_PERMISSION = 105
+
     private var quantity: String = "1"
+    private var qrScanResult: String = ""
     private val databaseProduct = CashRegisterDatabase.getInstance().productDao()
 
     private var totalPrice: Double = 0.0
@@ -91,13 +103,67 @@ class Invoice : Fragment(), MVVM {
             }
 
             binding.btnScan.setOnClickListener() {
-                Log.d("ITEM", ItemContainer.getName())
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkPermission(Manifest.permission.CAMERA)) {
+                        scanQr()
+                    }
+                    else {
+                        activity?.let { requestPermission(it, Manifest.permission.CAMERA, CAMERA_PERMISSION) }
+                    }
+                }
+                else {
+                    scanQr()
+                }
             }
 
             binding.rvInvoiceItems.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = InvoiceRecyclerAdapter(cartItemList, clicks, CashRegisterApp.ApplicationContext)
             binding.rvInvoiceItems.adapter = adapter
         }
+    }
+
+    private fun scanQr() {
+        var intentIntegrator = IntentIntegrator.forSupportFragment(this)
+        intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+            .setPrompt("Scan")
+            .setCameraId(0)
+            .setBeepEnabled(false)
+            .setBarcodeImageEnabled(false)
+            .initiateScan()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val intentResultListener: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (intentResultListener != null) {
+            if (intentResultListener.contents== null) {
+                Toast.makeText(context, "SCAN CANCELLED", Toast.LENGTH_LONG).show()
+            }
+            else {
+                qrScanResult = intentResultListener.contents.toString()
+                updateCartByScan()
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun updateCartByScan() {
+
+        val product = databaseProduct.selectId(qrScanResult.toInt())
+        cartItemList.add(CartItem(product.id.toString(), product.productName, "1", product.price.toString(), product.price.toString()))
+        binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
+        
+        val item: SearchDialogManager = SearchDialogManager(product.productName)
+        var itemIndex: Int = 0
+
+        for (x in 0 until productList.size) {
+            if (productList[x].title == item.title)
+                itemIndex = x
+        }
+
+        productList.removeAt(itemIndex)
+        updateQuantityWithOutTotalPrice(cartItemList[cartItemList.size-1])
     }
 
     private fun returnItemState() {
@@ -138,6 +204,8 @@ class Invoice : Fragment(), MVVM {
                         removeFromTotal(item.getPrice().toDouble())
                         cartItemList.removeAt(position)
                         binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
+
+                        productList.add(SearchDialogManager(item.getName()))
                     }
                     else {
                         Toast.makeText(context,"SET ITEM QUANTITY TO 1", Toast.LENGTH_LONG).show()
@@ -148,6 +216,8 @@ class Invoice : Fragment(), MVVM {
                         updateQuantityOnProductRemoving(item)
                         cartItemList.removeAt(position)
                         binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
+
+                        productList.add(SearchDialogManager(item.getName()))
                     }
                     else {
                         Toast.makeText(context,"SET ITEM QUANTITY TO 1", Toast.LENGTH_LONG).show()
@@ -284,7 +354,6 @@ class Invoice : Fragment(), MVVM {
         cartItemList.add(CartItem(product.id.toString(), product.productName, "1", product.price.toString(), product.price.toString()))
         binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
 
-        //totalQuantityMemo = cartItemList[cartItemList.size-1].getQuantity().toInt()
         updateQuantityWithOutTotalPrice(cartItemList[cartItemList.size-1])
     }
 
