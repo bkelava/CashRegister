@@ -91,4 +91,11 @@
     <string name="addmore">Add more</string>
     <string name="eliminate">Eliminate</string>
     <string name="removeitem">Remove</string>
+
+    <string name="cashreg">Invoice</string>
+    <string name="addtostock">Add to stock</string>
+    <string name="viewstock">View stock</string>
+    <string name="exportinvoice">Export invoice</string>
+    <string name="companyinfo">Company Information</string>
+    <string name="abouttheapp">About application</string>
 </resources>

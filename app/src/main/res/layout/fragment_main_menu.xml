@@ -26,106 +26,94 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <Button
-                android:id="@+id/btnCashRegister"
-                style="@style/mainMenu"
-                android:layout_width="0dp"
+            <at.markushi.ui.CircleButton
+                android:id="@+id/btnInvoice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="35dp"
-                android:background="@color/mainMenuButtons"
-                android:padding="@dimen/mainMenuButtonPadding10dp"
-                android:text="@string/CASH_REGISTER"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_baseline_attach_money_48"
+                app:cb_color="@color/LIGHT_GREEN"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivLogo"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <Button
+            <at.markushi.ui.CircleButton
                 android:id="@+id/btnAddToStock"
-                style="@style/mainMenu"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="35dp"
-                android:background="@color/mainMenuButtons"
-                android:padding="@dimen/mainMenuButtonPadding10dp"
-                android:text="@string/STOCK"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="50dp"
+                android:src="@drawable/ic_baseline_post_add_96"
+                app:cb_color="@color/LIGHT_ORANGE"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnCashRegister"
+                app:layout_constraintTop_toBottomOf="@+id/ivLogo"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <Button
+            <at.markushi.ui.CircleButton
                 android:id="@+id/btnViewStock"
-                style="@style/mainMenu"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="35dp"
-                android:background="@color/mainMenuButtons"
-                android:padding="@dimen/mainMenuButtonPadding10dp"
-                android:text="@string/view_stock"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="75dp"
+                android:src="@drawable/ic_baseline_pageview_24"
+                app:cb_color="@color/LIGHT_YELLOW"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnInvoice"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <at.markushi.ui.CircleButton
+                android:id="@+id/btnExportInvoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="75dp"
+                android:layout_marginEnd="50dp"
+                android:src="@drawable/ic_baseline_import_export_96"
+                app:cb_color="@color/LIGHT_PURPLE"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnAddToStock"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <Button
-                android:id="@+id/btnExport"
-                style="@style/mainMenu"
-                android:layout_width="0dp"
+            <at.markushi.ui.CircleButton
+                android:id="@+id/btnCompanyInformation"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="35dp"
-                android:background="@color/mainMenuButtons"
-                android:padding="@dimen/mainMenuButtonPadding10dp"
-                android:text="@string/exportQR"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="75dp"
+                android:src="@drawable/ic_baseline_info_24"
+                app:cb_color="@color/COLOR_LIGTH1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnViewStock"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <Button
-                android:id="@+id/btnCompanyInformation"
-                style="@style/mainMenu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="35dp"
-                android:background="@color/mainMenuButtons"
-                android:padding="@dimen/mainMenuButtonPadding10dp"
-                android:text="@string/COMPANY_INFO"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnExport"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <Button
+            <at.markushi.ui.CircleButton
                 android:id="@+id/btnAboutCashRegister"
-                style="@style/mainMenu"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="35dp"
-                android:background="@color/mainMenuButtons"
-                android:padding="@dimen/mainMenuButtonPadding10dp"
-                android:text="@string/ABOUT_APPLICATION"
+                android:layout_marginTop="75dp"
+                android:layout_marginEnd="50dp"
+                android:src="@drawable/ic_baseline_perm_device_information_24"
+                app:cb_color="@color/COLOR_LIGHT2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnCompanyInformation"
+                app:layout_constraintTop_toBottomOf="@+id/btnExportInvoice"
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
@@ -133,33 +121,88 @@
                 style="@style/exitMM"
                 android:layout_width="125dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="35dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="25dp"
                 android:background="@color/RED"
                 android:text="@string/EXIT"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnAboutCashRegister"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/btnAboutCashRegister" />
 
-            <Button
-                android:id="@+id/btnLogOut"
-                style="@style/exitMM"
-                android:layout_width="125dp"
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/info4"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="25dp"
-                android:background="@color/RED"
-                android:text="@string/logout"
+                android:layout_marginTop="5dp"
+                android:text="@string/cashreg"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnAboutCashRegister"
+                app:layout_constraintEnd_toEndOf="@+id/btnInvoice"
+                app:layout_constraintStart_toStartOf="@+id/btnInvoice"
+                app:layout_constraintTop_toBottomOf="@+id/btnInvoice"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <TextView
+                android:id="@+id/textView"
+                style="@style/info4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/addtostock"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btnAddToStock"
+                app:layout_constraintStart_toStartOf="@+id/btnAddToStock"
+                app:layout_constraintTop_toBottomOf="@+id/btnAddToStock"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/info4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/viewstock"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btnViewStock"
+                app:layout_constraintStart_toStartOf="@+id/btnViewStock"
+                app:layout_constraintTop_toBottomOf="@+id/btnViewStock"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                style="@style/info4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/exportinvoice"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btnExportInvoice"
+                app:layout_constraintStart_toStartOf="@+id/btnExportInvoice"
+                app:layout_constraintTop_toBottomOf="@+id/btnExportInvoice"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/info4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/companyinfo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btnCompanyInformation"
+                app:layout_constraintStart_toStartOf="@+id/btnCompanyInformation"
+                app:layout_constraintTop_toBottomOf="@+id/btnCompanyInformation"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                style="@style/info4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/abouttheapp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btnAboutCashRegister"
+                app:layout_constraintStart_toStartOf="@+id/btnAboutCashRegister"
+                app:layout_constraintTop_toBottomOf="@+id/btnAboutCashRegister"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>

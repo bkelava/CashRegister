@@ -7,8 +7,13 @@
     <color name="orange">#F66C41</color>
     <color name="LIGHT_YELLOW">#E6F36D</color>
 
+    <color name="LIGHT_ORANGE">#F48460</color>
+
     <color name="YELLOW">#FFEB3B</color>
     <color name="BLACK">#000000</color>
+
+    <color name="COLOR_LIGTH1">#85FFF1</color>
+    <color name="COLOR_LIGHT2">#938989</color>
 
     <color name="RED">#F10606</color>
 

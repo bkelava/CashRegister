@@ -71,6 +71,12 @@
         <item name="android:textSize">@dimen/info</item>
     </style>
 
+    <style name="info4">
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textColor">@color/RED</item>
+        <item name="android:textSize">@dimen/info4</item>
+    </style>
+
     <style name="mainMenu">
         <item name="background">@color/mainMenuButtons</item>
         <item name="fontFamily">@font/aclonica</item>

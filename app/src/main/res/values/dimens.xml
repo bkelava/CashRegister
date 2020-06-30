@@ -4,6 +4,8 @@
     <dimen name="unamePw">20dp</dimen>
     <dimen name="info">15dp</dimen>
 
+    <dimen name="info4">13dp</dimen>
+
     <dimen name="productitemsize">15dp</dimen>
     <dimen name="receipt_item">10dp</dimen>
 

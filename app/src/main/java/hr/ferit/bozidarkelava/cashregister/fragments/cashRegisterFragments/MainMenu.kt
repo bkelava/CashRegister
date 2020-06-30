@@ -40,9 +40,6 @@ class MainMenu : Fragment(), MVVM {
     }
 
     override fun setUpBinding() {
-        binding.btnLogOut.setOnClickListener() {
-            manager.openFragment(R.id.frameMainMenu, LoginPage())
-        }
 
         binding.btnExit.setOnClickListener() {
             exitProcess(0)
@@ -56,7 +53,7 @@ class MainMenu : Fragment(), MVVM {
             manager.openFragment(R.id.frameMainMenu, ViewStock())
         }
 
-        binding.btnCashRegister.setOnClickListener() {
+        binding.btnInvoice.setOnClickListener() {
             manager.openFragment(R.id.frameMainMenu, Invoice())
         }
     }
