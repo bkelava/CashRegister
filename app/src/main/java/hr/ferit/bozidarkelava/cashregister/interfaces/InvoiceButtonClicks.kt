@@ -7,4 +7,6 @@ interface InvoiceButtonClicks {
     fun eliminate(position: Int)
 
     fun remove(position: Int)
+
+    fun setText(): String
 }

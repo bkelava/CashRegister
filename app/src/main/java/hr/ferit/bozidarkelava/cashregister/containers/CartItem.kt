@@ -32,6 +32,10 @@ class CartItem(id: String, name: String, quantity: String, price: String, total:
         return this.total
     }
 
+    fun setQuantity(text:String) {
+        this.quantity = text
+    }
+
 
 
 

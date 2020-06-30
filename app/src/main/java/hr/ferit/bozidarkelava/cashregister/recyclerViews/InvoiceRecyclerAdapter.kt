@@ -2,11 +2,14 @@ package hr.ferit.bozidarkelava.cashregister.recyclerViews
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.containers.CartItem
 import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceButtonClicks
+import kotlinx.android.synthetic.main.invoice_item.view.*
+import java.lang.Integer.parseInt
 
 class InvoiceRecyclerAdapter(items: MutableList<CartItem>, clicks: InvoiceButtonClicks, context: Context):
     RecyclerView.Adapter<InvoiceViewHolder>() {
@@ -34,6 +37,21 @@ class InvoiceRecyclerAdapter(items: MutableList<CartItem>, clicks: InvoiceButton
 
     override fun onBindViewHolder(holder: InvoiceViewHolder, position: Int) {
         val item: CartItem = items[position]
-        holder.populateOnViewHolder(item, clicks)
+        holder.populateOnViewHolder(item)
+
+        holder.itemView.btnRemoveItem.setOnClickListener() {
+            clicks.remove(position)
+            holder.itemView.tvInvoiceItemQuantity.text = clicks.setText()
+        }
+
+        holder.itemView.btnAddItem.setOnClickListener() {
+            clicks.add(position)
+            holder.itemView.tvInvoiceItemQuantity.text = clicks.setText()
+        }
+
+        holder.itemView.btnRemove.setOnClickListener() {
+            clicks.eliminate(position)
+            holder.itemView.tvInvoiceItemQuantity.text = clicks.setText()
+        }
     }
 }

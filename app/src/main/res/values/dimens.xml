@@ -5,7 +5,7 @@
     <dimen name="info">15dp</dimen>
 
     <dimen name="productitemsize">15dp</dimen>
-    <dimen name="receipt_item">15dp</dimen>
+    <dimen name="receipt_item">10dp</dimen>
 
     <dimen name="et">15dp</dimen>
 

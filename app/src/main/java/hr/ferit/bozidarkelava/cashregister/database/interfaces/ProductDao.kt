@@ -32,4 +32,12 @@ interface ProductDao {
 
     @Query("SELECT * FROM product WHERE name =  :name" )
     fun selectProductByName(name: String): Product
+
+    @Query ("SELECT quantity FROM product WHERE id = :id")
+    fun selectProductQuantity(id: Int) : Int
+
+
+    @Query ("UPDATE product SET quantity= :quantity WHERE id =  :id")
+    fun updateProductQuantity(id: Int, quantity: Int)
+
 }

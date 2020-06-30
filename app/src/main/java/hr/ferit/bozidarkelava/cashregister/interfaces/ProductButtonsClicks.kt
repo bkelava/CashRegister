@@ -5,7 +5,5 @@ interface ProductButtonsClicks {
 
     fun update(position: Int)
 
-    fun export(position: Int) {
-
-    }
+    fun export(position: Int)
 }
