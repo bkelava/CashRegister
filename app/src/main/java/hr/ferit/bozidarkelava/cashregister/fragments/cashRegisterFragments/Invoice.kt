@@ -149,21 +149,38 @@ class Invoice : Fragment(), MVVM {
     }
 
     private fun updateCartByScan() {
-
-        val product = databaseProduct.selectId(qrScanResult.toInt())
-        cartItemList.add(CartItem(product.id.toString(), product.productName, "1", product.price.toString(), product.price.toString()))
-        binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
-        
-        val item: SearchDialogManager = SearchDialogManager(product.productName)
-        var itemIndex: Int = 0
-
-        for (x in 0 until productList.size) {
-            if (productList[x].title == item.title)
-                itemIndex = x
+        if (databaseProduct.selectId(qrScanResult.toInt()) == null) {
+            Toast.makeText(context, "ITEM NOT FOUND", Toast.LENGTH_LONG).show()
         }
+        else {
+            val temp: Int = findListElement(SearchDialogManager(databaseProduct.selectItemNameById(qrScanResult.toInt())))
+            if (temp == 0) {
+                Toast.makeText(context, "ITEM IS ALREADY IN CART", Toast.LENGTH_LONG).show()
+            }
+            else {
+                val product = databaseProduct.selectId(qrScanResult.toInt())
+                cartItemList.add(CartItem(product.id.toString(), product.productName, "1", product.price.toString(), product.price.toString()))
+                binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
 
-        productList.removeAt(itemIndex)
-        updateQuantityWithOutTotalPrice(cartItemList[cartItemList.size-1])
+                productList
+                val item: SearchDialogManager = SearchDialogManager(product.productName)
+                var itemIndex: Int = 0
+                itemIndex = findListElement(item)
+
+                productList.removeAt(itemIndex)
+                updateQuantityWithOutTotalPrice(cartItemList[cartItemList.size-1])
+            }
+        }
+    }
+
+    private fun findListElement(item: SearchDialogManager) : Int {
+        var itemIndex: Int = 0
+        for (x in 0 until productList.size) {
+            if (productList[x].title == item.title) {
+                itemIndex=x
+            }
+        }
+        return itemIndex
     }
 
     private fun returnItemState() {
