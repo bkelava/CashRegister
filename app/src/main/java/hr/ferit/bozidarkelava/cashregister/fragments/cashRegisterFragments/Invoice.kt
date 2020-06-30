@@ -2,9 +2,16 @@ package hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
+import android.util.LruCache
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,8 +32,11 @@ import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.managers.SearchDialogManager
 import hr.ferit.bozidarkelava.cashregister.containers.ItemContainer
+import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformation
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceButtonClicks
+import hr.ferit.bozidarkelava.cashregister.managers.MyNotificationManager
+import hr.ferit.bozidarkelava.cashregister.managers.QRManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.checkPermission
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.requestPermission
 import hr.ferit.bozidarkelava.cashregister.recyclerViews.InvoiceRecyclerAdapter
@@ -35,6 +45,9 @@ import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat
 import ir.mirrajabi.searchdialog.core.SearchResultListener
 import ir.mirrajabi.searchdialog.core.Searchable
 import kotlinx.android.synthetic.main.invoice_item.view.*
+import java.io.File
+import java.io.FileOutputStream
+import java.lang.Integer.parseInt
 import java.util.ArrayList
 
 class Invoice : Fragment(), MVVM {
@@ -43,7 +56,9 @@ class Invoice : Fragment(), MVVM {
 
     private var quantity: String = "1"
     private var qrScanResult: String = ""
+
     private val databaseProduct = CashRegisterDatabase.getInstance().productDao()
+    private val databaseCompanyInformation = CashRegisterDatabase.getInstance().companyInformationDao()
 
     private var totalPrice: Double = 0.0
 
@@ -113,11 +128,78 @@ class Invoice : Fragment(), MVVM {
                 }
             }
 
+            binding.btnCreateInvoice.setOnClickListener() {
+                createRecepit()
+            }
+
             binding.rvInvoiceItems.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = InvoiceRecyclerAdapter(cartItemList, clicks, CashRegisterApp.ApplicationContext)
             binding.rvInvoiceItems.adapter = adapter
         }
     }
+
+    /*private fun createRecepit() {
+        val companyInformation: List<CompanyInformation> = databaseCompanyInformation.selectAll()
+        val product: Product= productDatabase.selectId(position)
+        val qrManager = QRManager()
+
+        var pdfDocument: PdfDocument = PdfDocument()
+        var paint: Paint = Paint()
+        var pageInfo: PdfDocument.PageInfo = PdfDocument.PageInfo.Builder(1572, 1572, 1).create()
+        var page: PdfDocument.Page = pdfDocument.startPage(pageInfo)
+
+        var canvas: Canvas = page.canvas
+
+        paint.color = Color.BLACK
+        paint.textSize = 50F
+        paint.textAlign = Paint.Align.CENTER
+        canvas.drawText(companyInformation[0].companyName, 786F, 100F, paint)
+        canvas.drawText(companyInformation[0].companyAddress, 786F, 150F, paint)
+        canvas.drawText(companyInformation[0].companyCityAndPostal, 786F, 200F, paint)
+
+        paint.textSize = 35F
+        paint.textAlign= Paint.Align.LEFT
+
+        canvas.drawText("Product name: " + product.productName, 286F, 500F, paint)
+        canvas.drawText("Product price: " + product.price.toString(), 286F, 550F, paint)
+
+        canvas.drawBitmap(qrManager.createQR(product.id.toString()), 576F, 576F, paint)
+
+        pdfDocument.finishPage(page)
+
+        val path = Environment.getExternalStorageDirectory().absolutePath + File.separator + (product.productName + ".pdf")
+        val file = File(path)
+
+        pdfDocument.writeTo(FileOutputStream(file))
+
+        val notificationManager = MyNotificationManager()
+        notificationManager.displayNotification(CashRegisterApp.toString(), product.productName, file.absolutePath)
+
+        pdfDocument.close()
+        manager.openFragment(R.id.frameCashRegister, MainMenu())
+    }
+
+    private fun takeReceiptItems(view: RecyclerView): Bitmap {
+        var bitmap: Bitmap? = null
+        var adapter = view.adapter
+        if (adapter!= null) {
+            val size = adapter.itemCount
+            val height = 0
+            var paint = Paint()
+            val iHeight = 0
+            val maxMemory = (Runtime.getRuntime().maxMemory()/1024).toInt()
+
+            //using 1/8 memory for cache
+            val cacheSize = maxMemory/8
+
+            var bitmapCache: LruCache<String, Bitmap> = LruCache(cacheSize)
+
+            for (x in 0 until size) {
+                var holder: RecyclerView.ViewHolder = adapter.createViewHolder()
+            }
+
+        }
+    }*/
 
     private fun scanQr() {
         var intentIntegrator = IntentIntegrator.forSupportFragment(this)
@@ -352,7 +434,6 @@ class Invoice : Fragment(), MVVM {
         }
     }
 
-
     private fun inputItem() {
 
         SimpleSearchDialogCompat(activity, "Search...", "item name..", null, productList,
@@ -395,5 +476,10 @@ class Invoice : Fragment(), MVVM {
             items.add(SearchDialogManager(list[i]))
         }
         return items
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        returnItemState()
     }
 }
