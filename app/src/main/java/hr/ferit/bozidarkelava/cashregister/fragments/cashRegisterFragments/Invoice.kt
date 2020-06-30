@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -36,7 +34,6 @@ import hr.ferit.bozidarkelava.cashregister.viewModels.InvoiceViewModel
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat
 import ir.mirrajabi.searchdialog.core.SearchResultListener
 import ir.mirrajabi.searchdialog.core.Searchable
-import kotlinx.android.synthetic.main.fragment_invoice.*
 import kotlinx.android.synthetic.main.invoice_item.view.*
 import java.util.ArrayList
 
@@ -140,7 +137,7 @@ class Invoice : Fragment(), MVVM {
             }
             else {
                 qrScanResult = intentResultListener.contents.toString()
-                updateCartByScan()
+                insertToCartByScan()
             }
         }
         else {
@@ -148,13 +145,15 @@ class Invoice : Fragment(), MVVM {
         }
     }
 
-    private fun updateCartByScan() {
+    private fun insertToCartByScan() {
         if (databaseProduct.selectId(qrScanResult.toInt()) == null) {
             Toast.makeText(context, "ITEM NOT FOUND", Toast.LENGTH_LONG).show()
         }
         else {
-            val temp: Int = findListElement(SearchDialogManager(databaseProduct.selectItemNameById(qrScanResult.toInt())))
-            if (temp == 0) {
+            val item = SearchDialogManager(databaseProduct.selectItemNameById(qrScanResult.toInt()))
+            val temp: Int = findListElement(item)
+            //Log.d("ITEM NAME", item.title)
+            if (temp < 0) {
                 Toast.makeText(context, "ITEM IS ALREADY IN CART", Toast.LENGTH_LONG).show()
             }
             else {
@@ -174,13 +173,13 @@ class Invoice : Fragment(), MVVM {
     }
 
     private fun findListElement(item: SearchDialogManager) : Int {
-        var itemIndex: Int = 0
-        for (x in 0 until productList.size) {
-            if (productList[x].title == item.title) {
-                itemIndex=x
-            }
+        var state: Int = -1
+        //Log.d("PRODUCT SIZE", productList.size.toString())
+        productList.forEachIndexed { index, searchable ->
+            if (searchable.title == item.title)
+                state = index
         }
-        return itemIndex
+        return state
     }
 
     private fun returnItemState() {
@@ -242,7 +241,7 @@ class Invoice : Fragment(), MVVM {
                 }
             }
 
-            override fun setText(): String {
+            override fun setText(position: Int): String {
                 return quantity
             }
         }
@@ -280,8 +279,10 @@ class Invoice : Fragment(), MVVM {
 
     private fun updateQuantityOnProductEliminating(item: CartItem, position: Int) {
         val temp = databaseProduct.selectProductQuantity(item.getId().toInt())
-        Log.d("TEMP BEFORE ELIMINATING", temp.toString())
+        //Log.d("TEMP BEFORE ELIMINATING", temp.toString())
         if (item.getQuantity().toInt() > 1) {
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isEnabled=true
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isClickable=true
             var quantity = temp + 1
 
             databaseProduct.updateProductQuantity(item.getId().toInt(), quantity)
@@ -291,11 +292,9 @@ class Invoice : Fragment(), MVVM {
             item.setQuantity(quantity.toString())
             this.quantity=item.getQuantity()
 
-            Log.d("QUANTITY UPON ELIMINATING: ", quantity.toString())
+            //Log.d("QUANTITY UPON ELIMINATING: ", quantity.toString())
             this.quantity = quantity.toString()
 
-            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isEnabled=true
-            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isClickable=true
         }
         else if (item.getQuantity().toInt() == 1)
         {
@@ -306,6 +305,8 @@ class Invoice : Fragment(), MVVM {
 
     private fun updateQuantityOnProductAdding(item: CartItem, position: Int) {
         val temp = databaseProduct.selectProductQuantity(item.getId().toInt())
+        binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isEnabled=true
+        binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isClickable=true
         if(temp > 0) {
             var quantity = temp - 1
 
@@ -315,14 +316,12 @@ class Invoice : Fragment(), MVVM {
             quantity = item.getQuantity().toInt() + 1
             item.setQuantity(quantity.toString())
             this.quantity = item.getQuantity()
-            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isEnabled=true
-            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isClickable=true
-            Log.d("QUANTITY UPON ADDING: ", quantity.toString())
+            //Log.d("QUANTITY UPON ADDING: ", quantity.toString())
         }
         else {
             Toast.makeText(this.requireContext(), "NO ITEM LEFT", Toast.LENGTH_LONG)
         }
-        Log.d("TEMP", temp.toString())
+        //Log.d("TEMP", temp.toString())
         if (temp == 0) {
             binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isEnabled=false
             binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isClickable=false
