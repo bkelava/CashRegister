@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -32,11 +33,12 @@ import java.util.ArrayList
 
 class Invoice : Fragment(), MVVM {
 
-    private var quantity: String = ""
+    private var quantity: String = "1"
     private val databaseProduct = CashRegisterDatabase.getInstance().productDao()
 
     private var totalPrice: Double = 0.0
-    private var totalQuantityMemo: Int = 0
+
+    private var itemsMemo: List<Product> = databaseProduct.selectAll()
 
     private lateinit var cartItemList: MutableList<CartItem>
     private lateinit var productList: ArrayList<Searchable>
@@ -80,6 +82,7 @@ class Invoice : Fragment(), MVVM {
             binding.total = viewModel
 
             binding.btnBack.setOnClickListener {
+                returnItemState()
                 manager.openFragment(R.id.frameCashRegister, MainMenu())
             }
 
@@ -97,16 +100,22 @@ class Invoice : Fragment(), MVVM {
         }
     }
 
+    private fun returnItemState() {
+        for (x in 0 until itemsMemo.size) {
+            databaseProduct.update(itemsMemo[x])
+        }
+    }
+
     private fun createClicks(): InvoiceButtonClicks {
         val mClicks = object : InvoiceButtonClicks {
             override fun add(position: Int) {
                 val item: CartItem = cartItemList[position]
                 val product: Product = databaseProduct.selectId(item.getId().toInt())
                 if (product.type == "Service") {
-                    updateQuantityOnServiceAdding(item)
+                    updateQuantityOnServiceAdding(item, position)
                 }
                 else {
-                    updateQuantityOnProductAdding(item)
+                    updateQuantityOnProductAdding(item, position)
                 }
             }
 
@@ -114,10 +123,10 @@ class Invoice : Fragment(), MVVM {
                 val item: CartItem = cartItemList[position]
                 val product: Product = databaseProduct.selectId(item.getId().toInt())
                 if (product.type == "Service") {
-                    updateQuantityOnServiceEliminating(item)
+                    updateQuantityOnServiceEliminating(item, position)
                 }
                 else {
-                    updateQuantityOnProductEliminating(item)
+                    updateQuantityOnProductEliminating(item, position)
                 }
             }
             override fun remove(position: Int) {
@@ -130,12 +139,18 @@ class Invoice : Fragment(), MVVM {
                         cartItemList.removeAt(position)
                         binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
                     }
+                    else {
+                        Toast.makeText(context,"SET ITEM QUANTITY TO 1", Toast.LENGTH_LONG).show()
+                    }
                 }
                 else {
                     if (quantity.toInt() == 1) {
                         updateQuantityOnProductRemoving(item)
                         cartItemList.removeAt(position)
                         binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
+                    }
+                    else {
+                        Toast.makeText(context,"SET ITEM QUANTITY TO 1", Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -147,7 +162,7 @@ class Invoice : Fragment(), MVVM {
         return mClicks
     }
 
-    private fun updateQuantityOnServiceEliminating(item: CartItem) {
+    private fun updateQuantityOnServiceEliminating(item: CartItem, position: Int) {
         if (item.getQuantity().toInt() > 1) {
             val quantity = item.getQuantity().toInt()-1
             item.setQuantity(quantity.toString())
@@ -155,15 +170,18 @@ class Invoice : Fragment(), MVVM {
             removeFromTotal(item.getPrice().toDouble())
         }
         else {
-            Toast.makeText(this.context, "REMOVE ITEMS FROM CART UNTIL 1", Toast.LENGTH_LONG).show()
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isEnabled=false
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isClickable=false
         }
     }
 
-    private fun updateQuantityOnServiceAdding(item: CartItem) {
+    private fun updateQuantityOnServiceAdding(item: CartItem, position: Int) {
         val quantity = item.getQuantity().toInt() + 1
         item.setQuantity(quantity.toString())
         this.quantity = item.getQuantity()
         addToTotal(item.getPrice().toDouble())
+        binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isEnabled=true
+        binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isClickable=true
     }
     
     private fun updateQuantityOnProductRemoving(item: CartItem) {
@@ -173,8 +191,9 @@ class Invoice : Fragment(), MVVM {
         databaseProduct.updateProductQuantity(item.getId().toInt(), quantity)
     }
 
-    private fun updateQuantityOnProductEliminating(item: CartItem) {
+    private fun updateQuantityOnProductEliminating(item: CartItem, position: Int) {
         val temp = databaseProduct.selectProductQuantity(item.getId().toInt())
+        Log.d("TEMP BEFORE ELIMINATING", temp.toString())
         if (item.getQuantity().toInt() > 1) {
             var quantity = temp + 1
 
@@ -187,13 +206,18 @@ class Invoice : Fragment(), MVVM {
 
             Log.d("QUANTITY UPON ELIMINATING: ", quantity.toString())
             this.quantity = quantity.toString()
+
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isEnabled=true
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isClickable=true
         }
-        /*if (temp == 0) {
-            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)
-        }*/
+        else if (item.getQuantity().toInt() == 1)
+        {
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isEnabled=false
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isClickable=false
+        }
     }
 
-    private fun updateQuantityOnProductAdding(item: CartItem) {
+    private fun updateQuantityOnProductAdding(item: CartItem, position: Int) {
         val temp = databaseProduct.selectProductQuantity(item.getId().toInt())
         if(temp > 0) {
             var quantity = temp - 1
@@ -204,11 +228,21 @@ class Invoice : Fragment(), MVVM {
             quantity = item.getQuantity().toInt() + 1
             item.setQuantity(quantity.toString())
             this.quantity = item.getQuantity()
-
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isEnabled=true
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isClickable=true
             Log.d("QUANTITY UPON ADDING: ", quantity.toString())
         }
         else {
             Toast.makeText(this.requireContext(), "NO ITEM LEFT", Toast.LENGTH_LONG)
+        }
+        Log.d("TEMP", temp.toString())
+        if (temp == 0) {
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isEnabled=false
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isClickable=false
+        }
+        else {
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isEnabled=true
+            binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnAddItem!!.isClickable=true
         }
     }
 
