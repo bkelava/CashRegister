@@ -169,7 +169,7 @@
                 style="@style/receipts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/producttotalprice"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
