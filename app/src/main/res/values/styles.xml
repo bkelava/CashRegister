@@ -85,7 +85,7 @@
         <item name="buttonTint">@color/mainMenuButtons</item>
     </style>
 
-    <style name="receipt">
+    <style name="receipts">
         <item name="android:textColor">@color/LIGHT_YELLOW</item>
         <item name="fontFamily">@font/aclonica</item>
         <item name="android:textSize">@dimen/productitemsize</item>

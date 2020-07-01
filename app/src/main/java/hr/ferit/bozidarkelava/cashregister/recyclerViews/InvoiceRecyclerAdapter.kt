@@ -24,6 +24,10 @@ class InvoiceRecyclerAdapter(items: MutableList<CartItem>, clicks: InvoiceButton
         this.context=context
     }
 
+    fun getItemList(): MutableList<CartItem> {
+        return this.items
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InvoiceViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.invoice_item, parent, false)
         val holder = InvoiceViewHolder(view)

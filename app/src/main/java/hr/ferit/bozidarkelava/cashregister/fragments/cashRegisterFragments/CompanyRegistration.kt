@@ -18,14 +18,14 @@ import hr.ferit.bozidarkelava.cashregister.viewModels.CompanyRegistrationViewMod
 import kotlin.system.exitProcess
 
 
-class CompanyRegistration : Fragment(), MVVM  {
+open class CompanyRegistration : Fragment(), MVVM  {
 
     private var companyInformationDao = CashRegisterDatabase.getInstance().companyInformationDao()
 
-    private lateinit var manager: Manager
+    internal lateinit var manager: Manager
 
-    private lateinit var binding: FragmentCompanyRegistrationBinding
-    private lateinit var viewModel: CompanyRegistrationViewModel
+    internal lateinit var binding: FragmentCompanyRegistrationBinding
+    internal lateinit var viewModel: CompanyRegistrationViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_company_registration, container, false)
@@ -65,7 +65,7 @@ class CompanyRegistration : Fragment(), MVVM  {
         viewModel.email.observe(this.requireActivity(), androidx.lifecycle.Observer { binding.invalidateAll() })
     }
 
-    private fun insertInfo() {
+    open fun insertInfo() {
         val companyName = binding.etCompanyName.text.toString()
         val companyAddress = binding.etCompanyAddress.text.toString()
         val companyCityAndPostal = binding.etCompanyCityAndPostal.text.toString()

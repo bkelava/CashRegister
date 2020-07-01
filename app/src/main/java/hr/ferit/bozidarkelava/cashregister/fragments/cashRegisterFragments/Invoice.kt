@@ -6,18 +6,19 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.pdf.PdfDocument
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.util.LruCache
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,17 +27,19 @@ import com.google.zxing.integration.android.IntentResult
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.activity.CashRegisterApp
 import hr.ferit.bozidarkelava.cashregister.containers.CartItem
+import hr.ferit.bozidarkelava.cashregister.containers.ItemContainer
+import hr.ferit.bozidarkelava.cashregister.containers.ReceiptDataContainer
+import hr.ferit.bozidarkelava.cashregister.containers.TotalPriceContainer
 import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
+import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentInvoiceBinding
+import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceButtonClicks
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
-import hr.ferit.bozidarkelava.cashregister.managers.SearchDialogManager
-import hr.ferit.bozidarkelava.cashregister.containers.ItemContainer
-import hr.ferit.bozidarkelava.cashregister.database.tables.CompanyInformation
-import hr.ferit.bozidarkelava.cashregister.database.tables.Product
-import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceButtonClicks
 import hr.ferit.bozidarkelava.cashregister.managers.MyNotificationManager
-import hr.ferit.bozidarkelava.cashregister.managers.QRManager
+import hr.ferit.bozidarkelava.cashregister.managers.SearchDialogManager
+import hr.ferit.bozidarkelava.cashregister.managers.SoundPoolManager
+import hr.ferit.bozidarkelava.cashregister.miscellaneous.PDFHelper
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.checkPermission
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.requestPermission
 import hr.ferit.bozidarkelava.cashregister.recyclerViews.InvoiceRecyclerAdapter
@@ -46,19 +49,20 @@ import ir.mirrajabi.searchdialog.core.SearchResultListener
 import ir.mirrajabi.searchdialog.core.Searchable
 import kotlinx.android.synthetic.main.invoice_item.view.*
 import java.io.File
-import java.io.FileOutputStream
-import java.lang.Integer.parseInt
-import java.util.ArrayList
+import java.util.*
 
 class Invoice : Fragment(), MVVM {
 
     private val CAMERA_PERMISSION = 105
+    private val FILE_SHARE_PERMISSION = 106
 
     private var quantity: String = "1"
     private var qrScanResult: String = ""
 
+    private val soundManager: SoundPoolManager = SoundPoolManager()
+
     private val databaseProduct = CashRegisterDatabase.getInstance().productDao()
-    private val databaseCompanyInformation = CashRegisterDatabase.getInstance().companyInformationDao()
+    private val databaseReceipts = CashRegisterDatabase.getInstance().receiptsDao()
 
     private var totalPrice: Double = 0.0
 
@@ -95,6 +99,8 @@ class Invoice : Fragment(), MVVM {
         productList = this!!.initData()!!
 
         viewModel.totalPrice.observe(this.requireActivity(), androidx.lifecycle.Observer { binding.invalidateAll() })
+
+        soundManager.init()
     }
 
     override fun setUpBinding() {
@@ -129,7 +135,28 @@ class Invoice : Fragment(), MVVM {
             }
 
             binding.btnCreateInvoice.setOnClickListener() {
-                createRecepit()
+                if (cartItemList.size == 0) {
+                    Toast.makeText(context, "CART IS EMPTY!", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            createRecepit()
+                            soundManager.playSound(R.raw.cash_register)
+                        } else {
+                            activity?.let {
+                                requestPermission(
+                                    it,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    FILE_SHARE_PERMISSION
+                                )
+                            }
+                        }
+                    } else {
+                        createRecepit()
+                        soundManager.playSound(R.raw.cash_register)
+                    }
+                }
             }
 
             binding.rvInvoiceItems.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -138,68 +165,77 @@ class Invoice : Fragment(), MVVM {
         }
     }
 
-    /*private fun createRecepit() {
-        val companyInformation: List<CompanyInformation> = databaseCompanyInformation.selectAll()
-        val product: Product= productDatabase.selectId(position)
-        val qrManager = QRManager()
+    private fun createRecepit() {
 
-        var pdfDocument: PdfDocument = PdfDocument()
-        var paint: Paint = Paint()
-        var pageInfo: PdfDocument.PageInfo = PdfDocument.PageInfo.Builder(1572, 1572, 1).create()
-        var page: PdfDocument.Page = pdfDocument.startPage(pageInfo)
 
-        var canvas: Canvas = page.canvas
-
-        paint.color = Color.BLACK
-        paint.textSize = 50F
-        paint.textAlign = Paint.Align.CENTER
-        canvas.drawText(companyInformation[0].companyName, 786F, 100F, paint)
-        canvas.drawText(companyInformation[0].companyAddress, 786F, 150F, paint)
-        canvas.drawText(companyInformation[0].companyCityAndPostal, 786F, 200F, paint)
-
-        paint.textSize = 35F
-        paint.textAlign= Paint.Align.LEFT
-
-        canvas.drawText("Product name: " + product.productName, 286F, 500F, paint)
-        canvas.drawText("Product price: " + product.price.toString(), 286F, 550F, paint)
-
-        canvas.drawBitmap(qrManager.createQR(product.id.toString()), 576F, 576F, paint)
-
-        pdfDocument.finishPage(page)
-
-        val path = Environment.getExternalStorageDirectory().absolutePath + File.separator + (product.productName + ".pdf")
-        val file = File(path)
-
-        pdfDocument.writeTo(FileOutputStream(file))
-
-        val notificationManager = MyNotificationManager()
-        notificationManager.displayNotification(CashRegisterApp.toString(), product.productName, file.absolutePath)
-
-        pdfDocument.close()
+        //val bitmap = getBitmapFromView(binding.rvInvoiceItems)
+        //val bitmap = getScreenshotFromRecyclerView(binding.rvInvoiceItems)
+        val bitmap = shotRecyclerView(binding.rvInvoiceItems)
+        val root: String = Environment.getExternalStorageDirectory().toString()
+        //val bitmap = getRecyclerViewScreenshot(binding.rvInvoiceItems)
+        val myDir = File("$root/saved_recipes")
+        val pdfHelper = PDFHelper(myDir, this.context!!)
+        ReceiptDataContainer.setId(databaseReceipts.selectMaxId() + 1)
+        Log.d("AFTER", ReceiptDataContainer.getId().toString())
+        pdfHelper.saveImageToPDF(binding.rvInvoiceItems, bitmap!!, ReceiptDataContainer.getId().toString())
+        //var list = adapter.getItemList()
+        val notificationManager: MyNotificationManager = MyNotificationManager()
+        notificationManager.displayNotification("Recipe created!", "Receipit NO"+databaseReceipts.selectLastRecipeNumber().toString(), databaseReceipts.selectLastRecipePath())
         manager.openFragment(R.id.frameCashRegister, MainMenu())
     }
 
-    private fun takeReceiptItems(view: RecyclerView): Bitmap {
-        var bitmap: Bitmap? = null
-        var adapter = view.adapter
-        if (adapter!= null) {
+    fun shotRecyclerView(view: RecyclerView): Bitmap? {
+        val adapter = view.adapter
+        var bigBitmap: Bitmap? = null
+        if (adapter != null) {
             val size = adapter.itemCount
-            val height = 0
-            var paint = Paint()
-            val iHeight = 0
-            val maxMemory = (Runtime.getRuntime().maxMemory()/1024).toInt()
+            var height = 0
+            val paint = Paint()
+            var iHeight = 0
+            val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
 
-            //using 1/8 memory for cache
-            val cacheSize = maxMemory/8
-
-            var bitmapCache: LruCache<String, Bitmap> = LruCache(cacheSize)
-
-            for (x in 0 until size) {
-                var holder: RecyclerView.ViewHolder = adapter.createViewHolder()
+            val cacheSize = maxMemory / 8
+            val bitmaCache =
+                LruCache<String, Bitmap>(cacheSize)
+            for (i in 0 until size) {
+                val holder =
+                    adapter.createViewHolder(view, adapter.getItemViewType(i))
+                adapter.onBindViewHolder(holder, i)
+                holder.itemView.measure(
+                    View.MeasureSpec.makeMeasureSpec(
+                        view.width,
+                        View.MeasureSpec.EXACTLY
+                    ),
+                    View.MeasureSpec.makeMeasureSpec(
+                        0,
+                        View.MeasureSpec.UNSPECIFIED
+                    )
+                )
+                holder.itemView.layout(
+                    0, 0, holder.itemView.measuredWidth,
+                    holder.itemView.measuredHeight
+                )
+                holder.itemView.isDrawingCacheEnabled = true
+                holder.itemView.buildDrawingCache()
+                val drawingCache = holder.itemView.drawingCache
+                if (drawingCache != null) {
+                    bitmaCache.put(i.toString(), drawingCache)
+                }
+                height += holder.itemView.measuredHeight
             }
+            bigBitmap =
+                Bitmap.createBitmap(view.measuredWidth, height, Bitmap.Config.ARGB_8888)
+            val bigCanvas = Canvas(bigBitmap)
 
+            for (i in 0 until size) {
+                val bitmap = bitmaCache[i.toString()]
+                bigCanvas.drawBitmap(bitmap, 0f, iHeight.toFloat(), paint)
+                iHeight += bitmap.height
+                bitmap.recycle()
+            }
         }
-    }*/
+        return bigBitmap
+    }
 
     private fun scanQr() {
         var intentIntegrator = IntentIntegrator.forSupportFragment(this)
@@ -466,14 +502,21 @@ class Invoice : Fragment(), MVVM {
 
     private fun setTotalPriceText() {
         val value: Double = Math.round(this.totalPrice*100)/100.0
+        TotalPriceContainer.setTotalPrice(value)
         viewModel.setTotalPrice(value)
     }
 
     private fun initData(): ArrayList<Searchable>? {
         val list: ArrayList<String> = databaseProduct.selectAllItemNames() as ArrayList<String>
+        val fullList: List<Product> = databaseProduct.selectAll()
         var items: ArrayList<Searchable> = ArrayList()
         for (i in 0 until list.size) {
-            items.add(SearchDialogManager(list[i]))
+            if (fullList[i].quantity == 0) {
+                //skip
+            }
+            else {
+                items.add(SearchDialogManager(list[i]))
+            }
         }
         return items
     }

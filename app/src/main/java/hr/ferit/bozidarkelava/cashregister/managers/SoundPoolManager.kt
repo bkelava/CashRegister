@@ -19,6 +19,7 @@ class SoundPoolManager {
         }
         this.soundPool.setOnLoadCompleteListener { _, _, _ -> mLoaded = true }
         mSoundMap[R.raw.juntos] = this.soundPool.load(CashRegisterApp.ApplicationContext, R.raw.juntos, 1)
+        mSoundMap[R.raw.cash_register] = this.soundPool.load(CashRegisterApp.ApplicationContext, R.raw.cash_register, 1)
     }
 
     fun playSound(selectedSound: Int) {

@@ -107,7 +107,7 @@
 
             <TextView
                 android:id="@+id/tvProductId"
-                style="@style/receipt"
+                style="@style/receipts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -122,7 +122,7 @@
 
             <TextView
                 android:id="@+id/tvProductName"
-                style="@style/receipt"
+                style="@style/receipts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
@@ -137,7 +137,7 @@
 
             <TextView
                 android:id="@+id/tvProductQuantity"
-                style="@style/receipt"
+                style="@style/receipts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="75dp"
@@ -151,7 +151,7 @@
 
             <TextView
                 android:id="@+id/tvProductPricePeerOne"
-                style="@style/receipt"
+                style="@style/receipts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="45dp"
@@ -166,7 +166,7 @@
 
             <TextView
                 android:id="@+id/tvProductTotalPricePeerItem"
-                style="@style/receipt"
+                style="@style/receipts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="35dp"
@@ -200,7 +200,7 @@
 
             <TextView
                 android:id="@+id/tvTotalPrice"
-                style="@style/receipt"
+                style="@style/receipts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
