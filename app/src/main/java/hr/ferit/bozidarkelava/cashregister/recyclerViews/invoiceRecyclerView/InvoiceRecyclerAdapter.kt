@@ -47,19 +47,19 @@ class InvoiceRecyclerAdapter(items: MutableList<CartItem>, clicks: InvoiceButton
         holder.itemView.btnRemoveItem.setOnClickListener() {
             clicks.remove(position)
             holder.itemView.tvInvoiceItemQuantity.text = clicks.setText(position)
-            notifyItemChanged(position)
+            //notifyItemChanged(position)
         }
 
         holder.itemView.btnAddItem.setOnClickListener() {
             clicks.add(position)
             holder.itemView.tvInvoiceItemQuantity.text = clicks.setText(position)
-            notifyItemChanged(position)
+            //notifyItemChanged(position)
         }
 
         holder.itemView.btnRemove.setOnClickListener() {
             clicks.eliminate(position)
             holder.itemView.tvInvoiceItemQuantity.text = clicks.setText(position)
-            notifyItemChanged(position)
+            //notifyItemChanged(position)
         }
     }
 }

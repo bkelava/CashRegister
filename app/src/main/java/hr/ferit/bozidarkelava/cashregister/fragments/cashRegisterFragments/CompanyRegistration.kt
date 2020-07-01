@@ -14,6 +14,7 @@ import hr.ferit.bozidarkelava.cashregister.databinding.FragmentCompanyRegistrati
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.containers.UserContainer
+import hr.ferit.bozidarkelava.cashregister.managers.PreferenceManager
 import hr.ferit.bozidarkelava.cashregister.viewModels.CompanyRegistrationViewModel
 import kotlin.system.exitProcess
 
@@ -52,7 +53,7 @@ open class CompanyRegistration : Fragment(), MVVM  {
     override fun setUpBinding() {
         binding.apply {
             binding.info = viewModel
-            viewModel.setEmail(UserContainer.getEmail())
+            viewModel.setEmail(PreferenceManager().getUserEmail().toString())
             binding.btnExit.setOnClickListener() {
                 exitProcess(0)
             }
@@ -82,6 +83,8 @@ open class CompanyRegistration : Fragment(), MVVM  {
             companyInformationDao.insert(companyInfo)
             clearFields()
             viewModel.setCompanyRegistrationNotificationText("PROCESSING")
+            var preferenceManager = PreferenceManager()
+            preferenceManager.saveCompanyName(companyEmail)
             manager.openFragment(R.id.frameCompanyRegistration, MainMenu())
         }
     }

@@ -37,6 +37,9 @@ class WelcomePage : Fragment() {
 
         val userCompanyName = PreferenceManager().getCompanyName()
 
+        Log.d("11111", userEmail)
+        Log.d("11111", userId)
+        Log.d("11111", userCompanyName)
         val handler = Handler()
         handler.postDelayed({
             kotlin.run {
