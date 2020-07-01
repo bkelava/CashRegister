@@ -20,11 +20,21 @@ class CompanyInformationUpdate : CompanyRegistration() {
         setFields()
     }
 
+    override fun setUpUI() {
+        super.setUpUI()
+
+        binding.tvRegisterYourCompany.text = "Update Company Information"
+        binding.btnExit.text = "BACK"
+    }
+
     override fun setUpBinding() {
         super.setUpBinding()
         binding.btnExit.setOnClickListener() {
             manager.openFragment(R.id.frameCompanyRegistration, MainMenu())
         }
+
+        binding.tvRegisterYourCompany.text = "Update Company Info"
+        binding.btnExit.text = "BACK"
     }
 
     private fun setFields() {
