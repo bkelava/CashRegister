@@ -1,6 +1,6 @@
 package hr.ferit.bozidarkelava.cashregister.interfaces
 
-interface InvoiceButtonClicks {
+interface InvoiceListener {
 
     fun add(position: Int)
 
@@ -8,5 +8,7 @@ interface InvoiceButtonClicks {
 
     fun remove(position: Int)
 
-    fun setText(position: Int): String
+    fun setQuantityText(position: Int): String
+
+    fun setItemTotalPrice(position: Int): String
 }

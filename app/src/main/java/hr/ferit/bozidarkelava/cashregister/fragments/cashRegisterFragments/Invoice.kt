@@ -30,7 +30,7 @@ import hr.ferit.bozidarkelava.cashregister.containers.TotalPriceContainer
 import hr.ferit.bozidarkelava.cashregister.database.CashRegisterDatabase
 import hr.ferit.bozidarkelava.cashregister.database.tables.Product
 import hr.ferit.bozidarkelava.cashregister.databinding.FragmentInvoiceBinding
-import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceButtonClicks
+import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceListener
 import hr.ferit.bozidarkelava.cashregister.interfaces.MVVM
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.managers.MyNotificationManager
@@ -52,6 +52,8 @@ class Invoice : Fragment(), MVVM {
 
     private val CAMERA_PERMISSION = 105
     private val FILE_SHARE_PERMISSION = 106
+
+    private var totalPerItem: Double = 0.0
 
     private var quantity: String = "1"
     private var qrScanResult: String = ""
@@ -308,8 +310,8 @@ class Invoice : Fragment(), MVVM {
         }
     }
 
-    private fun createClicks(): InvoiceButtonClicks {
-        val mClicks = object : InvoiceButtonClicks {
+    private fun createClicks(): InvoiceListener {
+        val mClicks = object : InvoiceListener {
             override fun add(position: Int) {
                 val item: CartItem = cartItemList[position]
                 val product: Product = databaseProduct.selectId(item.getId().toInt())
@@ -361,11 +363,19 @@ class Invoice : Fragment(), MVVM {
                 }
             }
 
-            override fun setText(position: Int): String {
+            override fun setQuantityText(position: Int): String {
                 return quantity
+            }
+
+            override fun setItemTotalPrice(position: Int): String {
+                return createTotalPerOneRound().toString()
             }
         }
         return mClicks
+    }
+
+    private fun createTotalPerOneRound(): Double {
+        return Math.round(totalPerItem*100)/100.0
     }
 
     private fun updateQuantityOnServiceEliminating(item: CartItem, position: Int) {
@@ -373,6 +383,7 @@ class Invoice : Fragment(), MVVM {
             val quantity = item.getQuantity().toInt()-1
             item.setQuantity(quantity.toString())
             this.quantity = item.getQuantity()
+            this.totalPerItem=this.quantity.toDouble()*item.getPrice().toDouble()
             removeFromTotal(item.getPrice().toDouble())
         }
         else {
@@ -385,6 +396,7 @@ class Invoice : Fragment(), MVVM {
         val quantity = item.getQuantity().toInt() + 1
         item.setQuantity(quantity.toString())
         this.quantity = item.getQuantity()
+        this.totalPerItem=this.quantity.toDouble()*item.getPrice().toDouble()
         addToTotal(item.getPrice().toDouble())
         binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isEnabled=true
         binding.rvInvoiceItems.findViewHolderForAdapterPosition(position)?.itemView?.btnRemove!!.isClickable=true
@@ -413,7 +425,8 @@ class Invoice : Fragment(), MVVM {
             this.quantity=item.getQuantity()
 
             //Log.d("QUANTITY UPON ELIMINATING: ", quantity.toString())
-            this.quantity = quantity.toString()
+            //this.quantity = quantity.toString()
+            this.totalPerItem=this.quantity.toDouble()*item.getPrice().toDouble()
 
         }
         else if (item.getQuantity().toInt() == 1)
@@ -436,6 +449,7 @@ class Invoice : Fragment(), MVVM {
             quantity = item.getQuantity().toInt() + 1
             item.setQuantity(quantity.toString())
             this.quantity = item.getQuantity()
+            this.totalPerItem=this.quantity.toDouble()*item.getPrice().toDouble()
             //Log.d("QUANTITY UPON ADDING: ", quantity.toString())
         }
         else {

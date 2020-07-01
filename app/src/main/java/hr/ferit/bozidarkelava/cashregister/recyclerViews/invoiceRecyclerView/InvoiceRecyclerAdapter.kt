@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hr.ferit.bozidarkelava.cashregister.R
 import hr.ferit.bozidarkelava.cashregister.containers.CartItem
-import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceButtonClicks
+import hr.ferit.bozidarkelava.cashregister.interfaces.InvoiceListener
 import kotlinx.android.synthetic.main.invoice_item.view.*
 
-class InvoiceRecyclerAdapter(items: MutableList<CartItem>, clicks: InvoiceButtonClicks, context: Context):
+class InvoiceRecyclerAdapter(items: MutableList<CartItem>, clicks: InvoiceListener, context: Context):
     RecyclerView.Adapter<InvoiceViewHolder>() {
 
     private var items: MutableList<CartItem>
-    private val clicks: InvoiceButtonClicks
+    private val clicks: InvoiceListener
     private val context: Context
 
     init {
@@ -46,19 +46,23 @@ class InvoiceRecyclerAdapter(items: MutableList<CartItem>, clicks: InvoiceButton
 
         holder.itemView.btnRemoveItem.setOnClickListener() {
             clicks.remove(position)
-            holder.itemView.tvInvoiceItemQuantity.text = clicks.setText(position)
+            holder.itemView.tvInvoiceItemQuantity.text = clicks.setQuantityText(position)
+            holder.itemView.tvInvoiceItemTotalPrice.text=clicks.setItemTotalPrice(position)
             //notifyItemChanged(position)
         }
 
         holder.itemView.btnAddItem.setOnClickListener() {
             clicks.add(position)
-            holder.itemView.tvInvoiceItemQuantity.text = clicks.setText(position)
+            holder.itemView.tvInvoiceItemQuantity.text = clicks.setQuantityText(position)
+            holder.itemView.tvInvoiceItemTotalPrice.text=clicks.setItemTotalPrice(position)
             //notifyItemChanged(position)
         }
 
         holder.itemView.btnRemove.setOnClickListener() {
             clicks.eliminate(position)
-            holder.itemView.tvInvoiceItemQuantity.text = clicks.setText(position)
+            holder.itemView.tvInvoiceItemQuantity.text = clicks.setQuantityText(position)
+            holder.itemView.tvInvoiceItemTotalPrice.text=clicks.setItemTotalPrice(position)
+
             //notifyItemChanged(position)
         }
     }
