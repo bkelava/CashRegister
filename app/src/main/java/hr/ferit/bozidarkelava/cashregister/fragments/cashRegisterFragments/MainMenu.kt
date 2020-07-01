@@ -60,5 +60,13 @@ class MainMenu : Fragment(), MVVM {
         binding.btnCompanyInformation.setOnClickListener() {
             manager.openFragment(R.id.frameMainMenu, CompanyInformationUpdate())
         }
+
+        binding.btnViewReceipts.setOnClickListener() {
+            manager.openFragment(R.id.frameMainMenu, ViewReceipts())
+        }
+
+        binding.btnAboutCashRegister.setOnClickListener() {
+            manager.openFragment(R.id.frameMainMenu, AboutApplication())
+        }
     }
 }

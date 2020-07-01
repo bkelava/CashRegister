@@ -95,7 +95,18 @@
     <string name="cashreg">Invoice</string>
     <string name="addtostock">Add to stock</string>
     <string name="viewstock">View stock</string>
-    <string name="exportinvoice">Export invoice</string>
+    <string name="exportinvoice">View receipts</string>
     <string name="companyinfo">Company Information</string>
     <string name="abouttheapp">About application</string>
+
+    <string name="open">OPEN</string>
+
+    <string name="VIEW_RECEIPTS">VIEW RECEIPTS</string>
+
+    <string name="about_cash_register_app">About Cash Register</string>
+
+    <string name="about_Text">Cash Register application is student project for subject RMA.
+        It covers the following functionalities: user register, user log-in, stock tracking,
+        editing stock supplies, invoicing, scanning products into cart by QR,
+        viewing issued invoices</string>
 </resources>

@@ -29,7 +29,7 @@ import hr.ferit.bozidarkelava.cashregister.interfaces.ProductButtonsClicks
 import hr.ferit.bozidarkelava.cashregister.managers.MyNotificationManager
 import hr.ferit.bozidarkelava.cashregister.managers.QRManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.*
-import hr.ferit.bozidarkelava.cashregister.recyclerViews.ViewStockRecyclerAdapter
+import hr.ferit.bozidarkelava.cashregister.recyclerViews.viewStockRecyclerView.ViewStockRecyclerAdapter
 import hr.ferit.bozidarkelava.cashregister.containers.ItemContainer
 import java.io.File
 import java.io.FileOutputStream
@@ -88,12 +88,22 @@ class ViewStock : Fragment(), MVVM {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
             binding.rvViewStockRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(productDatabase.selectAll() as MutableList<Product>,mClicks, CashRegisterApp.ApplicationContext)
+            binding.rvViewStockRecyclerView.adapter =
+                ViewStockRecyclerAdapter(
+                    productDatabase.selectAll() as MutableList<Product>,
+                    mClicks,
+                    CashRegisterApp.ApplicationContext
+                )
         }
     }
 
     private fun filter(string: String) {
-        binding.rvViewStockRecyclerView.adapter = ViewStockRecyclerAdapter(productDatabase.filter(string) as MutableList<Product>, createClicks(), this!!.context!!)
+        binding.rvViewStockRecyclerView.adapter =
+            ViewStockRecyclerAdapter(
+                productDatabase.filter(string) as MutableList<Product>,
+                createClicks(),
+                this!!.context!!
+            )
         (binding.rvViewStockRecyclerView.adapter as ViewStockRecyclerAdapter).refresh(productDatabase.filter(string) as MutableList<Product>)
     }
 
@@ -132,7 +142,7 @@ class ViewStock : Fragment(), MVVM {
 
         val companyInformation: List<CompanyInformation> = companyDatabase.selectAll()
 
-        Log.d("STUPID",companyInformation.first().companyAddress)
+        //Log.d("STUPID",companyInformation.first().companyAddress)
         val product: Product= productDatabase.selectId(position)
         val qrManager = QRManager()
 
@@ -160,6 +170,7 @@ class ViewStock : Fragment(), MVVM {
 
         pdfDocument.finishPage(page)
 
+        
         val path = Environment.getExternalStorageDirectory().absolutePath + File.separator + (product.productName + ".pdf")
         val file = File(path)
 

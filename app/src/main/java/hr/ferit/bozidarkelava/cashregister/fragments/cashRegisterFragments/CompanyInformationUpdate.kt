@@ -20,6 +20,13 @@ class CompanyInformationUpdate : CompanyRegistration() {
         setFields()
     }
 
+    override fun setUpBinding() {
+        super.setUpBinding()
+        binding.btnExit.setOnClickListener() {
+            manager.openFragment(R.id.frameCompanyRegistration, MainMenu())
+        }
+    }
+
     private fun setFields() {
         val list: List<CompanyInformation> = databaseCompanyInformation.selectAll()
         binding.etCompanyName.setText(list[0].companyName)

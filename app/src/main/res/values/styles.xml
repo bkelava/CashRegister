@@ -102,4 +102,13 @@
         <item name="android:layout_height">1dp</item>
         <item name="background">@color/BLACK</item>
     </style>
+
+    <style name="recipe_num">
+        <item name="android:textColor">@color/BLACK</item>
+        <item name="fontFamily">@font/aclonica</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/size</item>
+        <item name="background">@color/WHITE</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>

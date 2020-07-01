@@ -27,4 +27,7 @@ interface ReceiptDao {
     @Query ("SELECT id FROM receipts ORDER BY id DESC LIMIT 1")
     fun selectLastRecipeNumber(): Int
 
+    @Query ("SELECT path FROM receipts WHERE id=:id")
+    fun selectPathFromId(id: Int): String
+
 }

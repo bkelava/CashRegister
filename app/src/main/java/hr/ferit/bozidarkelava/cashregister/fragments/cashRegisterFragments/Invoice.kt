@@ -4,10 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -42,7 +39,7 @@ import hr.ferit.bozidarkelava.cashregister.managers.SoundPoolManager
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.PDFHelper
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.checkPermission
 import hr.ferit.bozidarkelava.cashregister.miscellaneous.requestPermission
-import hr.ferit.bozidarkelava.cashregister.recyclerViews.InvoiceRecyclerAdapter
+import hr.ferit.bozidarkelava.cashregister.recyclerViews.invoiceRecyclerView.InvoiceRecyclerAdapter
 import hr.ferit.bozidarkelava.cashregister.viewModels.InvoiceViewModel
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat
 import ir.mirrajabi.searchdialog.core.SearchResultListener
@@ -160,7 +157,12 @@ class Invoice : Fragment(), MVVM {
             }
 
             binding.rvInvoiceItems.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = InvoiceRecyclerAdapter(cartItemList, clicks, CashRegisterApp.ApplicationContext)
+            adapter =
+                InvoiceRecyclerAdapter(
+                    cartItemList,
+                    clicks,
+                    CashRegisterApp.ApplicationContext
+                )
             binding.rvInvoiceItems.adapter = adapter
         }
     }
@@ -270,7 +272,7 @@ class Invoice : Fragment(), MVVM {
         else {
             val item = SearchDialogManager(databaseProduct.selectItemNameById(qrScanResult.toInt()))
             val temp: Int = findListElement(item)
-            //Log.d("ITEM NAME", item.title)
+            //Log.d("ITEM NAME", item_view_stock.title)
             if (temp < 0) {
                 Toast.makeText(context, "ITEM IS ALREADY IN CART", Toast.LENGTH_LONG).show()
             }
@@ -472,7 +474,7 @@ class Invoice : Fragment(), MVVM {
 
     private fun inputItem() {
 
-        SimpleSearchDialogCompat(activity, "Search...", "item name..", null, productList,
+        SimpleSearchDialogCompat(activity, "Search...", "item_view_stock name..", null, productList,
             SearchResultListener { dialog, item, position ->
                 ItemContainer.setName(item.title)
                 processInput()
