@@ -170,7 +170,6 @@ class ViewStock : Fragment(), MVVM {
 
         pdfDocument.finishPage(page)
 
-        
         val path = Environment.getExternalStorageDirectory().absolutePath + File.separator + (product.productName + ".pdf")
         val file = File(path)
 
