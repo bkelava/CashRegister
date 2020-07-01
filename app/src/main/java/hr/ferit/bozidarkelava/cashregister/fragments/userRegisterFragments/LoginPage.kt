@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -61,6 +62,7 @@ class LoginPage : Fragment(), MVVM {
             androidx.lifecycle.Observer { binding.invalidateAll() })
 
         manager = activity as Manager
+
     }
 
     override fun setUpBinding() {
