@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import hr.ferit.bozidarkelava.cashregister.interfaces.Manager
 import hr.ferit.bozidarkelava.cashregister.R
+import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.CompanyRegistration
 import hr.ferit.bozidarkelava.cashregister.fragments.cashRegisterFragments.MainMenu
 import hr.ferit.bozidarkelava.cashregister.managers.PreferenceManager
 
@@ -34,12 +35,17 @@ class WelcomePage : Fragment() {
         val userId = PreferenceManager()
             .getUserId()
 
+        val userCompanyName = PreferenceManager().getCompanyName()
+
         val handler = Handler()
         handler.postDelayed({
             kotlin.run {
 
                 if (userEmail == "unknown" || userId == "unknown") {
                     manager.openFragment(R.id.frameWelcomePage, SignUpPage())
+                }
+                else if (userCompanyName == "unknown") {
+                    manager.openFragment(R.id.frameWelcomePage, CompanyRegistration())
                 }
                 else {
                     manager.openFragment(R.id.frameWelcomePage, MainMenu())

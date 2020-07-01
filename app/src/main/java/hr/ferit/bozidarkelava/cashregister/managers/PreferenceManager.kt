@@ -36,4 +36,18 @@ class PreferenceManager {
             PREFS_FILE, Context.MODE_PRIVATE)
         return sharedPreferences.getString("userid", "unknown")
     }
+
+    fun saveCompanyName(name: String) {
+        val sharedPreferences = CashRegisterApp.ApplicationContext.getSharedPreferences(
+            PREFS_FILE, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("userCO", name)
+        editor.apply()
+    }
+
+    fun getCompanyName(): String? {
+        val sharedPreferences = CashRegisterApp.ApplicationContext.getSharedPreferences(
+            PREFS_FILE, Context.MODE_PRIVATE)
+        return sharedPreferences.getString("userCO", "unknown")
+    }
 }
