@@ -14,6 +14,14 @@ class UpdateStock : AddToStock() {
         setUpFields()
     }
 
+    override fun setUpUI() {
+        super.setUpUI()
+
+        binding.tvTitle.text = "UPDATE"
+        binding.btnSaveProductOrService.text = "UPDATE"
+        binding.tvErrorInfo.visibility = View.INVISIBLE
+    }
+
     private fun setUpFields() {
         viewModel.setProductType(ItemContainer.getProductType())
         binding.etProductOrServiceName.setText(ItemContainer.getName())
