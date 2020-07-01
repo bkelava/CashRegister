@@ -61,8 +61,6 @@ class SignUpPage : Fragment(), MVVM {
         viewModel = ViewModelProviders.of(this).get(SignUpViewModel::class.java)
 
         manager = activity as Manager
-
-        binding.btnSignIn.visibility = View.INVISIBLE
     }
 
     override fun setUpBinding() {
@@ -107,7 +105,6 @@ class SignUpPage : Fragment(), MVVM {
                                     } //if email is already in use
                                     else {
                                         viewModel.setSignUpNotificationText(strValues.EMAIL_ALREADY_IN_USE)
-                                        binding.btnSignIn.visibility = View.VISIBLE
                                     }
                                 } //check if email is already in use
                         } //password equals

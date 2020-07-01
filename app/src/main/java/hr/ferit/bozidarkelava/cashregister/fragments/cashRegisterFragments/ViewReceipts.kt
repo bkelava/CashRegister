@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -34,7 +35,11 @@ class ViewReceipts : Fragment(), MVVM {
 
     private val databaseReceipts = CashRegisterDatabase.getInstance().receiptsDao()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_view_receipts, container, false)
         return view
     }
@@ -50,7 +55,8 @@ class ViewReceipts : Fragment(), MVVM {
     }
 
     override fun setUpUI() {
-        binding = DataBindingUtil.setContentView(this.requireActivity(), R.layout.fragment_view_receipts)
+        binding =
+            DataBindingUtil.setContentView(this.requireActivity(), R.layout.fragment_view_receipts)
         manager = activity as Manager
     }
 
@@ -62,28 +68,34 @@ class ViewReceipts : Fragment(), MVVM {
             manager.openFragment(R.id.frameViewReceipts, MainMenu())
         }
 
-        binding.rvViewReceipts.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        adapter = ViewReceiptsRecyclerAdapter(databaseReceipts.selectAll() as MutableList<Receipts>, clicks, CashRegisterApp.ApplicationContext)
+        binding.rvViewReceipts.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        adapter = ViewReceiptsRecyclerAdapter(
+            databaseReceipts.selectAll() as MutableList<Receipts>,
+            clicks,
+            CashRegisterApp.ApplicationContext
+        )
         binding.rvViewReceipts.adapter = adapter
     }
 
     private fun createClicks(): ReceiptButtonClick {
         val mClick = object : ReceiptButtonClick {
             override fun openReceipt(position: Int) {
-
-                //Log.d("PATH", databaseReceipts.selectPathFromId(position+1).toString())
-                val file: File = File(databaseReceipts.selectPathFromId(position+1))
-                val intent = Intent(Intent.ACTION_VIEW)
-                    .setDataAndType(
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) FileProvider.getUriForFile(
-                            CashRegisterApp.ApplicationContext,
-                            "hr.ferit.android.fileprovider",
-                            file!!
-                        ) else Uri.fromFile(file), "application/pdf"
-                    ).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                startActivity(intent)
+                val file: File = File(databaseReceipts.selectPathFromId(position + 1))
+                if (file.exists()) {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                        .setDataAndType(
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) FileProvider.getUriForFile(
+                                CashRegisterApp.ApplicationContext,
+                                "hr.ferit.android.fileprovider",
+                                file!!
+                            ) else Uri.fromFile(file), "application/pdf").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(CashRegisterApp.ApplicationContext, "FILE NOT FOUND", Toast.LENGTH_LONG).show()
+                }
             }
         }
-        return  mClick
+        return mClick
     }
 }
