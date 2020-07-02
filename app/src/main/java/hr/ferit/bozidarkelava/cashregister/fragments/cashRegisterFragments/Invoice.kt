@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.text.TextUtils
 import android.util.Log
 import android.util.LruCache
 import android.view.LayoutInflater
@@ -46,6 +47,8 @@ import ir.mirrajabi.searchdialog.core.SearchResultListener
 import ir.mirrajabi.searchdialog.core.Searchable
 import kotlinx.android.synthetic.main.invoice_item.view.*
 import java.io.File
+import java.text.NumberFormat
+import java.text.ParsePosition
 import java.util.*
 
 class Invoice : Fragment(), MVVM {
@@ -252,6 +255,7 @@ class Invoice : Fragment(), MVVM {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         val intentResultListener: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (intentResultListener != null) {
             if (intentResultListener.contents== null) {
@@ -268,30 +272,51 @@ class Invoice : Fragment(), MVVM {
     }
 
     private fun insertToCartByScan() {
-        if (databaseProduct.selectId(qrScanResult.toInt()) == null) {
-            Toast.makeText(context, "ITEM NOT FOUND", Toast.LENGTH_LONG).show()
-        }
-        else {
-            val item = SearchDialogManager(databaseProduct.selectItemNameById(qrScanResult.toInt()))
-            val temp: Int = findListElement(item)
-            //Log.d("ITEM NAME", item_view_stock.title)
-            if (temp < 0) {
-                Toast.makeText(context, "ITEM IS ALREADY IN CART", Toast.LENGTH_LONG).show()
+
+        if(isNumeric(qrScanResult)) {
+            if (databaseProduct.selectId(qrScanResult.toInt()) == null) {
+                Toast.makeText(context, "ITEM NOT FOUND", Toast.LENGTH_LONG).show()
             }
             else {
-                val product = databaseProduct.selectId(qrScanResult.toInt())
-                cartItemList.add(CartItem(product.id.toString(), product.productName, "1", product.price.toString(), product.price.toString()))
-                binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
+                val item =
+                    SearchDialogManager(databaseProduct.selectItemNameById(qrScanResult.toInt()))
+                val temp: Int = findListElement(item)
+                //Log.d("ITEM NAME", item_view_stock.title)
+                if (temp < 0) {
+                    Toast.makeText(context, "ITEM IS ALREADY IN CART", Toast.LENGTH_LONG).show()
+                } else {
+                    val product = databaseProduct.selectId(qrScanResult.toInt())
+                    cartItemList.add(
+                        CartItem(
+                            product.id.toString(),
+                            product.productName,
+                            "1",
+                            product.price.toString(),
+                            product.price.toString()
+                        )
+                    )
+                    binding.rvInvoiceItems.adapter?.notifyDataSetChanged()
 
-                productList
-                val item: SearchDialogManager = SearchDialogManager(product.productName)
-                var itemIndex: Int = 0
-                itemIndex = findListElement(item)
+                    productList
+                    val item: SearchDialogManager = SearchDialogManager(product.productName)
+                    var itemIndex: Int = 0
+                    itemIndex = findListElement(item)
 
-                productList.removeAt(itemIndex)
-                updateQuantityWithOutTotalPrice(cartItemList[cartItemList.size-1])
+                    productList.removeAt(itemIndex)
+                    updateQuantityWithOutTotalPrice(cartItemList[cartItemList.size - 1])
+                }
             }
         }
+        else {
+            Toast.makeText(context, "SCAN IS NOT VALID!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private  fun isNumeric(str: String): Boolean {
+        val formatter: NumberFormat = NumberFormat.getInstance()
+        val pos = ParsePosition(0)
+        formatter.parse(str, pos)
+        return str.length == pos.getIndex()
     }
 
     private fun findListElement(item: SearchDialogManager) : Int {

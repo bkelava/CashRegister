@@ -47,7 +47,7 @@ class InvoiceRecyclerAdapter(items: MutableList<CartItem>, clicks: InvoiceListen
         holder.itemView.btnRemoveItem.setOnClickListener() {
             clicks.remove(position)
             holder.itemView.tvInvoiceItemQuantity.text = clicks.setQuantityText(position)
-            holder.itemView.tvInvoiceItemTotalPrice.text=clicks.setItemTotalPrice(position)
+            //holder.itemView.tvInvoiceItemTotalPrice.text=clicks.setItemTotalPrice(position)
             //notifyItemChanged(position)
         }
 
